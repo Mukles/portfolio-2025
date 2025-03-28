@@ -1,0 +1,7 @@
+.container-fluid {
+  @apply w-full mx-auto px-4;
+}
+
+.container {
+  @apply max-w-[1320px] w-full mx-auto px-4;
+}

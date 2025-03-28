@@ -1,0 +1,22 @@
+@theme static {
+  --color-background: hsl(0, 0%, 100%); /* white */
+  --color-foreground: hsl(0, 0%, 0%); /* black */
+
+  --color-light: hsl(228, 25%, 92%); /* light blue-gray */
+  --color-dark: hsl(217, 33%, 17%); /* dark blue-gray */
+
+  --color-primary: hsl(225, 72%, 24%); /* deep blue */
+  --color-secondary: hsl(0, 0%, 100%); /* white */
+
+  --color-accent: hsl(190, 96%, 88%); /* light cyan */
+
+  --color-border: hsl(10, 79%, 83%); /* light salmon */
+
+  --color-success: hsl(167, 100%, 33%); /* green */
+  --color-warning: hsl(36, 100%, 50%); /* orange */
+  --color-danger: hsl(4, 90%, 58%); /* red */
+
+  /* Fonts */
+  --font-sans: "PP Neue Montreal", sans-serif;
+  --font-serif: "PP Neue Montreal Book", serif;
+}
