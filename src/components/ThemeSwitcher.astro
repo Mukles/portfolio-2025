@@ -1,8 +1,8 @@
 ---
-import { Sun } from "lucide-astro";
+import { Image } from "astro:assets";
 ---
 
 <button class="text-sm font-bold">
-  <Sun />
-  <span class="sr-only">Dark</span>
+  <Image src="/images/theme.svg" alt="theme switcher" width={24} height={24} />
+  <span class="sr-only">theme switcher</span>
 </button>

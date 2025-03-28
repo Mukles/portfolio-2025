@@ -1,19 +1,23 @@
 ---
 import NavLink from "@/components/NavLink.astro";
+import ThemeSwitcher from "@/components/ThemeSwitcher.astro";
 import links from "@/config/menu.json";
 ---
 
 <header class="py-2.5">
   <div class="container-fluid">
     <div
-      class="flex items-center justify-between px-7 py-5 bg-light/75 rounded-full"
+      class="bg-light/75 flex items-center justify-between rounded-full px-7 py-5"
     >
       <NavLink href="/"> Rekhchand </NavLink>
       <nav>
-        <ul class="flex items-center space-x-11">
+        <ul class="flex items-center">
+          <li>
+            <ThemeSwitcher />
+          </li>
           {
             links.map((link) => (
-              <li>
+              <li class="ml-10">
                 <NavLink href={link.href}>{link.label}</NavLink>
               </li>
             ))

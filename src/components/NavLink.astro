@@ -14,7 +14,7 @@ const isActive = Astro.url.pathname === href;
   <slot />
   {
     isActive && (
-      <Icons.Wave className="absolute w-[126%] h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      <Icons.Wave className="absolute w-[126%] h-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" />
     )
   }
 </a>
