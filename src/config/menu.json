@@ -1,0 +1,10 @@
+[
+{
+  "label": "About me",
+    "href": "/about"
+  },
+  {
+    "label": "Contact me",
+    "href": "/contact"
+  }
+]

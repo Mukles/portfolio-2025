@@ -1,18 +1,25 @@
 ---
-
+import NavLink from "@/components/NavLink.astro";
+import links from "@/config/menu.json";
 ---
 
-<header class="py-10">
-  <div class="container-fluid mx-auto px-4">
+<header class="py-2.5">
+  <div class="container-fluid">
     <div
-      class="flex items-center justify-between px-10 py-6 bg-light/75 rounded-full"
+      class="flex items-center justify-between px-7 py-5 bg-light/75 rounded-full"
     >
-      <a href="/" class="text-2xl font-bold"> Rekhchand </a>
+    <NavLink href="/">
+      Rekhchand
+    </NavLink>
+
       <nav>
-        <ul class="flex items-center gap-5">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
+        <ul class="flex items-center space-x-11">
+          {links.map((link) => (
+            <li>
+              <NavLink  href={link.href}>
+              {link.label}
+              </NavLink></li>
+          ))}
         </ul>
       </nav>
     </div>

@@ -1,0 +1,48 @@
+---
+import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+
+export const buttonVariants = cva(
+  'inline-block px-4 py-3 text-white no-underline capitalize transition duration-500 ease-in-out',
+  {
+    variants: {
+      variant: {
+        basic: 'p-0',
+        default: 'bg-gradient-to-r from-[#1a0b2e] to-[#2a133f] rounded',
+        custom: [
+          'font-semibold text-lg',
+          'relative group mr-7 overflow-hidden',
+          'hover:bg-gradient-to-r hover:from-[#1A43A3] hover:to-[#E025CE]',
+          'hover:shadow-[0_0_5px_#1A43A3,0_0_5px_#E025CE,0_0_10px_#1A43A3,0_0_30px_#E025CE]',
+          'reflect-below',
+        ],
+        outline: 'border border-custom-blue rounded',
+        'gradient-primary':
+          'bg-gradient-to-r from-[#1A43A3] to-[#E025CE] rounded-full px-8 py-3.5 hover:shadow-[0_0_5px_#1A43A3,0_0_10px_#E025CE] hover:brightness-110 transition-all duration-300',
+        'gradient-secondary':
+          'bg-gradient-to-r from-[#10439F] to-[#874CCC] rounded-full px-8 py-3.5 hover:shadow-[0_0_5px_#10439F,0_0_10px_#874CCC] hover:brightness-110 transition-all duration-300',
+      },
+      size: {
+        sm: 'text-sm',
+        md: 'text-base',
+        lg: 'text-lg',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+);
+
+interface Props extends VariantProps<typeof buttonVariants>  {
+  className?: string;
+  href?: string;
+}
+
+const { variant = 'default', size = 'md', className = '', ...props } = Astro.props as Props;
+---
+
+<button class={cn(buttonVariants({ variant, size }), className)} {...props}>
+  <slot />
+</button>
