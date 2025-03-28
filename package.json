@@ -7,7 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "next lint",
+    "lint": "astro lint",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -25,6 +25,12 @@
   "devDependencies": {
     "@types/react": "^19.0.12",
     "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "sass-embedded": "^1.86.0"
-  }
+  },
+  "plugins": [
+    "prettier-plugin-astro",
+    "prettier-plugin-tailwindcss"
+  ]
 }

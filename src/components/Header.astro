@@ -8,18 +8,16 @@ import links from "@/config/menu.json";
     <div
       class="flex items-center justify-between px-7 py-5 bg-light/75 rounded-full"
     >
-    <NavLink href="/">
-      Rekhchand
-    </NavLink>
-
+      <NavLink href="/"> Rekhchand </NavLink>
       <nav>
         <ul class="flex items-center space-x-11">
-          {links.map((link) => (
-            <li>
-              <NavLink  href={link.href}>
-              {link.label}
-              </NavLink></li>
-          ))}
+          {
+            links.map((link) => (
+              <li>
+                <NavLink href={link.href}>{link.label}</NavLink>
+              </li>
+            ))
+          }
         </ul>
       </nav>
     </div>
