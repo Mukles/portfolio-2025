@@ -18,5 +18,22 @@
 
   /* Fonts */
   --font-sans: "PP Neue Montreal", sans-serif;
-  --font-serif: "PP Neue Montreal Book", serif;
+  --font-primary: "PP Neue Montreal Book", serif;
+  --font-secondary: "Satoshi Medium", sans-serif;
+  /* Text sizes */
+  --base: 16px;
+  --scale: 1.465;  
+  
+  --text-base-sm:  calc(var(--base) * 0.8) + "px";
+  --text-h6: var(--base);
+
+  --text-h5: calc(var(--text-h6) * var(--scale));
+  --text-h4: calc(var(--text-h5) * var(--scale));
+  --text-h3: calc(var(--text-h4) * var(--scale));
+  --text-h3-sm: calc(var(--text-h3) * 0.9) + "rem";
+  --text-h2: calc(var(--text-h3) * var(--scale));
+  --text-h2-sm: calc(var(--text-h2) * 0.9) + "rem";
+  --text-h1: calc(var(--text-h2) * var(--scale));
+  --text-h1-sm: calc(var(--text-h1) * 0.9) + "rem";
+
 }
