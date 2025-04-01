@@ -1,35 +1,45 @@
 @font-face {
-  font-family: "PP Neue Montreal Book";
-  src: url("/fonts/PPNeueMontreal-Book.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
   font-display: swap;
+  font-family: Neue Montreal;
+  font-style: normal;
+  font-weight: 350;
+  src:
+    url(/fonts/PPNeueMontreal-Book-e12775b30a7622869ac2b248a08a42d7.woff2)
+      format("woff2"),
+    url(/fonts/PPNeueMontreal-Book-3fbc0cc15d5cf93e0fe94494ba16c194.woff)
+      format("woff");
 }
 
 @font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts/PPNeueMontreal-Regular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
   font-display: swap;
+  font-family: Neue Montreal;
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url(/fonts/PPNeueMontreal-Regular-3c7fa6d67cf69fb7dcb4f9eda0fcfc2a.woff2)
+      format("woff2"),
+    url(/fonts/PPNeueMontreal-Regular-2842e150d6666a9f53bb8b488bbbb5e7.woff)
+      format("woff");
 }
 
 @font-face {
-  font-family: 'Satoshi Medium';
-  src: url('/fonts/Satoshi-Medium.woff2') format('woff2');
+  font-display: swap;
+  font-family: Satoshi;
+  font-style: normal;
   font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+  src:
+    url(/fonts/Satoshi-Medium-1ffe968245568e8ba1e766cec2c0075d.woff2)
+      format("woff2"),
+    url(/fonts/Satoshi-Medium-2419b46c96ed15331ba205aa3b103eb8.woff)
+      format("woff");
 }
-
-
 
 html {
   @apply text-base-sm md:text-base;
 }
 
 body {
-  @apply bg-background text-base  font-sans font-normal leading-relaxed text-primary;
+  @apply bg-background text-primary font-sans text-base leading-relaxed font-normal;
 }
 
 h1,
@@ -38,7 +48,7 @@ h3,
 h4,
 h5,
 h6 {
-  @apply font-bold leading-tight text-primary;
+  @apply text-primary leading-tight font-bold;
 }
 
 h1,

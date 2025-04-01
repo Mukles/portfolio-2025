@@ -1,26 +1,29 @@
 ---
 import Button from "@/components/ui/Button.astro";
 import { ArrowRight } from "lucide-astro";
+import { cn } from "../lib/utils";
+const pathname = Astro.url.pathname;
 ---
 
 <footer>
   <div class="container-fluid">
-    <div class="bg-light/75 rounded-4xl py-32 text-center">
-      <h1 class="text-primary mb-10 text-6xl font-medium">
-        Have a project in mind?
-      </h1>
-      <Button
-        size={"lg"}
-        variant="warning"
-        class="group items-center justify-center space-x-0 normal-case transition-all duration-300 hover:space-x-2"
-      >
-        <span> Contact me </span>
-        <span
-          class="text-primary group-hover:border-background flex size-10 items-center justify-center rounded-full transition-all duration-300 group-hover:border"
+    <div class="bg-light/75 rounded-[45px] py-32 text-center">
+      <div class={cn(pathname === "/contact" && "hidden")}>
+        <h1 class="text-primary mb-10 text-6xl font-medium">
+          Have a project in mind?
+        </h1>
+        <Button
+          variant="warning"
+          class="group font-satoshi items-center justify-center space-x-0 px-6 text-lg normal-case transition-all duration-300"
         >
-          <ArrowRight class="size-4 flex-shrink-0" />
-        </span>
-      </Button>
+          <span> Contact me </span>
+          <span
+            class="text-primary group-hover:border-background flex size-10 items-center justify-center rounded-full border border-transparent transition-all duration-200 ease-in-out group-hover:ml-2"
+          >
+            <ArrowRight class="size-5 flex-shrink-0" />
+          </span>
+        </Button>
+      </div>
 
       <div class="grid grid-cols-3 gap-10 px-12 pt-32">
         <div class="col-span-1">

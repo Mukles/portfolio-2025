@@ -1,40 +1,41 @@
 ---
 import { Icons } from "./Icons";
+import SocialLinks from "./ui/SocialLinks.astro";
 ---
 
 <section class="section relative">
   <div class="container">
-    <div class="text-center">
-      <h1 class="font-secondary text-center leading-none font-medium">
+    <div class="flex flex-col items-center text-center">
+      <h1
+        class="font-satoshi text-center leading-[1.05] font-medium tracking-tight"
+      >
         <div>UX/UI designer,</div>
         <div>
-          <span class="relative">
+          <span class="relative inline-block h-full">
             Creative
             <Icons.Wave
-              height={159}
               width={436}
+              height={159}
+              strokeWidth={4}
+              vectorEffect={"non-scaling-stroke"}
               d={"M259.153 13.0611C182.786 2.44244 -4.4955 22.7946 3.2321 86.9486C10.9597 151.103 133.238 163.049 241.424 152.873C349.611 142.696 428.706 97.1251 432.796 58.1899C436.887 19.2547 378.703 2 314.61 2C250.516 2 185.058 8.63664 105.964 29.8739"}
-              className="absolute top-1/2 left-1/2 h-auto w-[114%] -translate-x-1/2 -translate-y-1/2"
+              className="absolute top-[58%] left-1/2 z-10 h-auto w-[114%] -translate-x-1/2 -translate-y-1/2"
             />
           </span>
           developer
         </div>
       </h1>
-      <p class="text-center text-sm font-medium">Specialised in</p>
-      <h2 class="font-secondary text-h3 text-center font-medium">
+      <p class="text-primary my-3 text-center text-lg font-normal">
+        Specialised in
+      </p>
+      <h2 class="relative inline-block text-center text-4xl font-medium">
         Websites & Webapps
+        <Icons.Line
+          className="absolute top-full left-1/2 w-full -translate-x-1/2 -translate-y-1/2"
+        />
       </h2>
-    </div>
-    <div class="absolute top-0 left-0 h-full w-full">
-      <!-- social font-medium">Specialised -->
-      <div class="flex items-center justify-center gap-4">
-        <a href="#">
-          <Icons.Instagram />
-        </a>
-        <a href="#">
-          <Icons.Twitter />
-        </a>
-      </div>
+
+      <SocialLinks />
     </div>
   </div>
 </section>

@@ -3,35 +3,40 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 export const buttonVariants = cva(
-  'inline-flex space-x-2 px-4 text-primary font-medium py-3 no-underline capitalize transition duration-500 ease-in-out rounded-full',
+  "inline-flex space-x-2 px-4 text-primary font-medium py-3 no-underline capitalize transition duration-500 ease-in-out rounded-full",
   {
     variants: {
       variant: {
-        default: 'bg-primary',
-        primary: 'bg-primary',
-        secondary: 'bg-secondary',
-        warning: 'bg-warning',
-        danger: 'bg-danger',
+        default: "bg-primary",
+        primary: "bg-primary",
+        secondary: "bg-secondary",
+        warning: "bg-warning",
+        danger: "bg-danger",
       },
       size: {
-        sm: 'text-sm',
-        md: 'text-base',
-        lg: 'text-xl px-7 py-5',
+        sm: "text-sm",
+        md: "text-base",
+        lg: "text-xl px-7 py-5",
       },
     },
     defaultVariants: {
-      variant: 'default',
-      size: 'md',
+      variant: "default",
+      size: "md",
     },
   }
 );
 
-interface Props extends VariantProps<typeof buttonVariants>  {
+interface Props extends VariantProps<typeof buttonVariants> {
   class?: string;
   href?: string;
 }
 
-const { variant = 'default', size = 'md', class: className = '', ...props } = Astro.props as Props;
+const {
+  variant = "default",
+  size = "md",
+  class: className = "",
+  ...props
+} = Astro.props as Props;
 ---
 
 <button class={cn(buttonVariants({ variant, size }), className)} {...props}>

@@ -1,0 +1,30 @@
+---
+import socialLinks from "@/config/socail.json";
+import { Image } from "astro:assets";
+---
+
+<ul
+  class="in-circle relative mt-10 flex size-20 items-center justify-center gap-40"
+>
+  {
+    socialLinks.map((link) => (
+      <li>
+        <a href="mailto:rekhchandsahu07@gmail.com" class="social-icon">
+          <Image
+            src="/images/icons/social/gmail.svg"
+            width={32}
+            height={32}
+            alt="gmail"
+          />
+
+          <Image
+            src="/images/icons/social/gmail-badge.svg"
+            width={150}
+            height={150}
+            alt="gmail-badge"
+          />
+        </a>
+      </li>
+    ))
+  }
+</ul>

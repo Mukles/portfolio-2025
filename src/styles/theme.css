@@ -8,6 +8,9 @@
   --color-primary: hsl(225, 72%, 24%); /* deep blue */
   --color-secondary: hsl(0, 0%, 100%); /* white */
 
+  --color-pink: #edd9f2;
+  --color-green: #bbe6ac;
+  --color-cyan: #c5f0fd;
   --color-accent: hsl(190, 96%, 88%); /* light cyan */
 
   --color-border: hsl(10, 79%, 83%); /* light salmon */
@@ -17,23 +20,53 @@
   --color-danger: hsl(4, 90%, 58%); /* red */
 
   /* Fonts */
-  --font-sans: "PP Neue Montreal", sans-serif;
-  --font-primary: "PP Neue Montreal Book", serif;
-  --font-secondary: "Satoshi Medium", sans-serif;
-  /* Text sizes */
-  --base: 16px;
-  --scale: 1.465;  
-  
-  --text-base-sm:  calc(var(--base) * 0.8) + "px";
-  --text-h6: var(--base);
+  --font-sans: "Neue Montreal", sans-serif;
+  --font-satoshi: "Satoshi", sans-serif;
 
-  --text-h5: calc(var(--text-h6) * var(--scale));
-  --text-h4: calc(var(--text-h5) * var(--scale));
-  --text-h3: calc(var(--text-h4) * var(--scale));
-  --text-h3-sm: calc(var(--text-h3) * 0.9) + "rem";
-  --text-h2: calc(var(--text-h3) * var(--scale));
-  --text-h2-sm: calc(var(--text-h2) * 0.9) + "rem";
-  --text-h1: calc(var(--text-h2) * var(--scale));
-  --text-h1-sm: calc(var(--text-h1) * 0.9) + "rem";
+  /* Base font size */
+  --base: 16;
+  --scale: 1.465; /* Scaling factor */
 
+  /* Typography */
+  --font-base: var(--base);
+  --font-scale: var(--scale);
+  --h6: 1; /* Smallest heading */
+  --h5: calc(var(--h6) * var(--font-scale));
+  --h4: calc(var(--h5) * var(--font-scale));
+  --h3: calc(var(--h4) * var(--font-scale));
+  --h2: calc(var(--h3) * var(--font-scale));
+  --h1: calc(var(--h2) * var(--font-scale));
+
+  /* Font sizes */
+  --text-base: calc(var(--font-base) * 1px);
+  --text-base-sm: calc(var(--base) * 0.8px);
+  --text-h1: calc(var(--h1) * 1rem);
+  --text-h1-sm: calc(var(--h1) * 0.8rem);
+  --text-h2: calc(var(--h2) * 1rem);
+  --text-h2-sm: calc(var(--h2) * 0.8rem);
+  --text-h3: calc(var(--h3) * 1rem);
+  --text-h3-sm: calc(var(--h3) * 0.8rem);
+  --text-h4: calc(var(--h4) * 1rem);
+  --text-h5: calc(var(--h5) * 1rem);
+  --text-h6: calc(var(--h6) * 1rem);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }

@@ -1,5 +1,22 @@
 ---
+import ContactForm from "@/components/ContactForm.astro";
+import FAQ from "@/components/FAQ.astro";
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout />
+<Layout>
+  <section class="section">
+    <div class="container">
+      <div class="flex justify-between">
+        <h1>Contact</h1>
+        <div class="max-w-xs text-xl">
+          <p>Interested in working with me?</p>
+          <p>Submit your project inquiry using the form below</p>
+        </div>
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+
+  <FAQ />
+</Layout>
