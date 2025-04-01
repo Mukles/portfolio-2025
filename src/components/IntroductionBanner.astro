@@ -1,6 +1,18 @@
 ---
+import Button from "@/components/ui/Button.astro";
+import ServiceAccordion from "@/helpers/ServiceAccordion";
+import type { MarkdownInstance } from "astro";
+import type { Service } from "homepage-service";
 import { ArrowRight } from "lucide-astro";
-import Button from "./ui/Button.astro";
+
+const { title, description, button, services } = Object.values(
+  import.meta.glob<MarkdownInstance<Service>>(
+    "/src/content/homepage/service.md",
+    {
+      eager: true,
+    }
+  )
+)[0].frontmatter;
 ---
 
 <section class="section">
@@ -10,31 +22,36 @@ import Button from "./ui/Button.astro";
     >
       <p>What I offer</p>
     </div>
-    <div class="mt-12 grid gap-[150px] lg:grid-cols-2">
-      <div>
+    <div class="mt-12 flex justify-between">
+      <div class="basis-[calc(50%_-_6rem)]">
         <h2
-          class="font-satoshi text-6xl leading-[1.05] font-medium tracking-wide"
+          class="font-satoshi text-6xl leading-[66px] font-medium tracking-tighter"
         >
-          Delivering modern, cohesive & intuitive web solutions.
+          {title}
         </h2>
         <p class="mt-9 text-xl">
-          I enjoy designing meaningful experiences for brands & businesses to
-          help them serve their target users.
+          {description}
         </p>
 
-        <Button
-          variant="warning"
-          class="group font-satoshi mt-11 items-center justify-center space-x-0 px-6 text-lg normal-case transition-all duration-300"
-        >
-          <span>About me</span>
-          <span
-            class="text-primary group-hover:border-background flex size-10 items-center justify-center rounded-full border border-transparent transition-all duration-200 ease-in-out group-hover:ml-2"
-          >
-            <ArrowRight class="size-5 flex-shrink-0" />
-          </span>
-        </Button>
+        {
+          button.enable && (
+            <Button
+              variant="warning"
+              class="group font-satoshi mt-11 items-center justify-center space-x-0 px-6 text-lg normal-case transition-all duration-300"
+              href={button.label}
+            >
+              <span>{button.label}</span>
+              <span class="text-primary group-hover:border-background flex size-10 items-center justify-center rounded-full border border-transparent transition-all duration-200 ease-in-out group-hover:ml-2">
+                <ArrowRight class="size-5 flex-shrink-0" />
+              </span>
+            </Button>
+          )
+        }
       </div>
-      <div></div>
+      <!-- Service Accordion -->
+      <div class="basis-[calc(50%_-_6rem)]">
+        <ServiceAccordion client:load serviceItems={services} />
+      </div>
     </div>
   </div>
 </section>

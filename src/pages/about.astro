@@ -1,5 +1,28 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Icons } from "../components/Icons";
 ---
 
-<Layout />
+<Layout>
+  <section class="section">
+    <div class="container-fluid">
+      <h1
+        class="font-satoshi text-center leading-[1.05] font-medium tracking-tight"
+      >
+        Designing meaningful experiences for <span
+          class="relative inline-block h-full"
+        >
+          brands
+          <Icons.Wave
+            width={436}
+            height={159}
+            strokeWidth={4}
+            vectorEffect={"non-scaling-stroke"}
+            d={"M259.153 13.0611C182.786 2.44244 -4.4955 22.7946 3.2321 86.9486C10.9597 151.103 133.238 163.049 241.424 152.873C349.611 142.696 428.706 97.1251 432.796 58.1899C436.887 19.2547 378.703 2 314.61 2C250.516 2 185.058 8.63664 105.964 29.8739"}
+            className="absolute top-[58%] left-1/2 z-10 h-auto w-[114%] -translate-x-1/2 -translate-y-1/2"
+          />
+        </span> & <span> businesses </span>
+      </h1>
+    </div>
+  </section>
+</Layout>
