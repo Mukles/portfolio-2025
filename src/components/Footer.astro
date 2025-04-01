@@ -7,14 +7,20 @@ const pathname = Astro.url.pathname;
 
 <footer>
   <div class="container-fluid">
-    <div class="bg-light/75 rounded-[45px] py-32 text-center">
+    <div
+      class={cn(
+        "bg-light/75 rounded-t-[45px] py-32 text-center",
+        pathname === "/contact" && "py-28"
+      )}
+    >
       <div class={cn(pathname === "/contact" && "hidden")}>
         <h1 class="text-primary mb-10 text-6xl font-medium">
           Have a project in mind?
         </h1>
         <Button
           variant="warning"
-          class="group font-satoshi items-center justify-center space-x-0 px-6 text-lg normal-case transition-all duration-300"
+          class="group font-satoshi cursor-pointer items-center justify-center space-x-0 px-6 text-lg normal-case transition-all duration-300"
+          href="/contact"
         >
           <span> Contact me </span>
           <span
@@ -25,7 +31,12 @@ const pathname = Astro.url.pathname;
         </Button>
       </div>
 
-      <div class="grid grid-cols-3 gap-10 px-12 pt-32">
+      <div
+        class={cn(
+          "grid grid-cols-3 gap-10 px-12 pt-32",
+          pathname === "/contact" && "pt-0"
+        )}
+      >
         <div class="col-span-1">
           <h2 class="text-primary text-left text-2xl font-medium">
             <span class="text-base"> Credits </span>

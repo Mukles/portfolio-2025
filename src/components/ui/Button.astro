@@ -35,10 +35,17 @@ const {
   variant = "default",
   size = "md",
   class: className = "",
+  href,
   ...props
 } = Astro.props as Props;
+
+const Tag = href ? "a" : "button";
 ---
 
-<button class={cn(buttonVariants({ variant, size }), className)} {...props}>
+<Tag
+  href={href}
+  class={cn(buttonVariants({ variant, size }), className)}
+  {...props}
+>
   <slot />
-</button>
+</Tag>
