@@ -61,14 +61,6 @@ textarea {
 }
 
 /* Social Icon Styles */
-@keyframes rotate1 {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(1turn);
-  }
-}
 
 .social-icon {
   @apply relative flex items-center justify-center rounded-full;
@@ -98,7 +90,10 @@ textarea {
   }
 
   &:hover img:last-of-type {
-    @apply scale-150 opacity-100;
-    animation: rotate1 10s linear infinite;
+    @apply animate-rotate1 scale-150 opacity-100;
   }
+}
+
+.animation-play-state-preserve {
+  animation-fill-mode: both;
 }

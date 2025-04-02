@@ -60,7 +60,29 @@ function Line(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function Squiggle(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      width="504"
+      height="28"
+      viewBox="0 0 504 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M2 25.1847C60.9623 19.1647 132.16 13.6506 204.83 8.62805C277.5 3.6055 415.679 0.0895689 426.057 3.60546C436.434 7.12135 346.811 14.6551 326.057 20.6822C305.302 26.7093 448.698 15.6597 502 11.1394"
+        stroke="#F5C3B4"
+        strokeWidth="4"
+        strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+      ></path>
+    </svg>
+  );
+}
+
 export const Icons = {
   Wave,
   Line,
+  Squiggle,
 };

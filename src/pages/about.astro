@@ -1,6 +1,10 @@
 ---
+import DirectionalScroll from "@/components/DirectionalScroll";
+import { Icons } from "@/components/Icons";
+import Badge from "@/components/ui/Badge.astro";
 import Layout from "@/layouts/Layout.astro";
-import { Icons } from "../components/Icons";
+import { Image } from "astro:assets";
+import { ArrowRight } from "lucide-astro";
 ---
 
 <Layout>
@@ -21,8 +25,130 @@ import { Icons } from "../components/Icons";
             d={"M259.153 13.0611C182.786 2.44244 -4.4955 22.7946 3.2321 86.9486C10.9597 151.103 133.238 163.049 241.424 152.873C349.611 142.696 428.706 97.1251 432.796 58.1899C436.887 19.2547 378.703 2 314.61 2C250.516 2 185.058 8.63664 105.964 29.8739"}
             className="absolute top-[58%] left-1/2 z-10 h-auto w-[114%] -translate-x-1/2 -translate-y-1/2"
           />
-        </span> & <span> businesses </span>
+        </span> & <span class="relative">
+          businesses
+          <Icons.Squiggle
+            className="absolute top-[104%] left-1/2 w-[102%] -translate-x-1/2 translate-y-[-43%]"
+          />
+        </span>
       </h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-fluid">
+      <Image
+        class={"rounded-[45px]"}
+        src={"/images/me.avif"}
+        width={1480}
+        height={888}
+        alt="me"
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="flex justify-between">
+        <div class="max-w-[880px] flex-1">
+          <h3
+            class="font-satoshi text-5xl leading-tight font-medium tracking-tight"
+          >
+            I’m an Indian UX/UI designer and creative web developer with a
+            passion for solving problems through simple & interactive designs.
+          </h3>
+        </div>
+        <div>
+          <Badge variant="pink" rotate={true}>
+            <p>Who am I</p>
+          </Badge>
+        </div>
+      </div>
+
+      <div class="mt-11 flex gap-16">
+        <p class="text-xl tracking-tight">
+          I am a Mechanical Engg graduate, and curiosity dragged me to learn
+          HTML & CSS. Then, I learned UX/UI design, Reactjs and Webflow, among
+          many other things. Currently, I’m exploring music and audio effects on
+          websites.
+        </p>
+
+        <p class="text-xl tracking-tight">
+          I love typography & colours and consider myself a UI design
+          generalist. Depending on the project requirement, I try to opt for a
+          suitable design style—Minimalistic, colourful, typographic, tech,
+          elegant, etc.—while sticking to the core design principles.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="flex justify-between">
+        <div class="max-w-[650px] flex-1">
+          <h3
+            class="font-satoshi text-5xl leading-tight font-medium tracking-tight"
+          >
+            My development stack is focused on performance & accessibility with
+            delightful interactions.
+          </h3>
+
+          <p class="mt-8 text-xl tracking-tight">
+            Apart from my main domain, I also like branding, icon design and
+            minimal illustrations. I am an enthusiast of digital art, motion
+            design & WebGL.
+          </p>
+        </div>
+
+        <div class="flex w-full max-w-[350px] gap-5.5">
+          <div class="mt-16 space-y-5.5">
+            <Badge variant="warning">
+              <div
+                class="border-background flex size-[92px] items-center justify-center rounded-full border"
+              >
+                <ArrowRight />
+              </div>
+              <Image
+                class={"absolute top-0 left-0 w-full h-full animate-rotate1"}
+                src={"/images/icons/badge-tools.svg"}
+                width={160}
+                height={160}
+                alt="badge tools"
+              />
+            </Badge>
+            <Badge variant={"green"} />
+            <Badge variant={"pink"} />
+          </div>
+
+          <div class="space-y-5.5">
+            <Badge variant={"accent"} />
+            <Badge variant={"light"} />
+            <Badge variant="warning">
+              <div
+                class="border-background flex size-[92px] items-center justify-center rounded-full border"
+              >
+                <ArrowRight />
+              </div>
+              <Image
+                class={"absolute top-0 left-0 w-full h-full animate-rotate1"}
+                src={"/images/icons/badge-fav.svg"}
+                width={160}
+                height={160}
+                alt="badge tools"
+              />
+            </Badge>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-fluid">
+      <div class="bg-light min-h-[350px] rounded-[45px]">
+        <DirectionalScroll client:load />
+      </div>
     </div>
   </section>
 </Layout>

@@ -1,4 +1,5 @@
 ---
+import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
 import ServiceAccordion from "@/helpers/ServiceAccordion";
 import type { MarkdownInstance } from "astro";
@@ -17,11 +18,9 @@ const { title, description, button, services } = Object.values(
 
 <section class="section">
   <div class="container">
-    <div
-      class="bg-accent flex size-[160px] -rotate-45 items-center justify-center rounded-full"
-    >
+    <Badge variant="primary">
       <p>What I offer</p>
-    </div>
+    </Badge>
     <div class="mt-12 flex justify-between">
       <div class="basis-[calc(50%_-_6rem)]">
         <h2
