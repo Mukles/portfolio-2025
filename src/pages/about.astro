@@ -1,10 +1,19 @@
 ---
-import DirectionalScroll from "@/components/DirectionalScroll";
 import { Icons } from "@/components/Icons";
+import TechnologySlider from "@/components/Slider.astro";
 import Badge from "@/components/ui/Badge.astro";
 import Layout from "@/layouts/Layout.astro";
+import { cn } from "@/lib/utils";
+import type { About } from "about-types";
+import type { MarkdownInstance } from "astro";
 import { Image } from "astro:assets";
 import { ArrowRight } from "lucide-astro";
+
+const { image, myself, skills, tools } = Object.values(
+  import.meta.glob<MarkdownInstance<About>>("/src/content/about/-index.md", {
+    eager: true,
+  })
+)[0].frontmatter;
 ---
 
 <Layout>
@@ -39,7 +48,7 @@ import { ArrowRight } from "lucide-astro";
     <div class="container-fluid">
       <Image
         class={"rounded-[45px]"}
-        src={"/images/me.avif"}
+        src={image}
         width={1480}
         height={888}
         alt="me"
@@ -54,8 +63,7 @@ import { ArrowRight } from "lucide-astro";
           <h3
             class="font-satoshi text-5xl leading-tight font-medium tracking-tight"
           >
-            I’m an Indian UX/UI designer and creative web developer with a
-            passion for solving problems through simple & interactive designs.
+            {myself.title}
           </h3>
         </div>
         <div>
@@ -66,19 +74,11 @@ import { ArrowRight } from "lucide-astro";
       </div>
 
       <div class="mt-11 flex gap-16">
-        <p class="text-xl tracking-tight">
-          I am a Mechanical Engg graduate, and curiosity dragged me to learn
-          HTML & CSS. Then, I learned UX/UI design, Reactjs and Webflow, among
-          many other things. Currently, I’m exploring music and audio effects on
-          websites.
-        </p>
-
-        <p class="text-xl tracking-tight">
-          I love typography & colours and consider myself a UI design
-          generalist. Depending on the project requirement, I try to opt for a
-          suitable design style—Minimalistic, colourful, typographic, tech,
-          elegant, etc.—while sticking to the core design principles.
-        </p>
+        {
+          myself.descriptions.map((desc) => {
+            return <p class="text-xl tracking-tight">{desc}</p>;
+          })
+        }
       </div>
     </div>
   </section>
@@ -90,14 +90,11 @@ import { ArrowRight } from "lucide-astro";
           <h3
             class="font-satoshi text-5xl leading-tight font-medium tracking-tight"
           >
-            My development stack is focused on performance & accessibility with
-            delightful interactions.
+            {skills.title}
           </h3>
 
           <p class="mt-8 text-xl tracking-tight">
-            Apart from my main domain, I also like branding, icon design and
-            minimal illustrations. I am an enthusiast of digital art, motion
-            design & WebGL.
+            {skills.description}
           </p>
         </div>
 
@@ -143,12 +140,32 @@ import { ArrowRight } from "lucide-astro";
       </div>
     </div>
   </section>
-
-  <section class="section">
-    <div class="container-fluid">
-      <div class="bg-light min-h-[350px] rounded-[45px]">
-        <DirectionalScroll client:load />
-      </div>
-    </div>
-  </section>
+  <TechnologySlider>
+    {
+      tools.map((tool) => (
+        <div class="tool group">
+          <span class="text-h1 font-satoshi leading-normal font-medium tracking-tight">
+            {tool.name}
+          </span>
+          <div
+            class={cn(
+              "animate-boomerange absolute rounded-full group-odd:bottom-0 group-odd:translate-y-1/2 group-even:top-0 group-even:-translate-y-1/2"
+            )}
+          >
+            <Image
+              width={tool.size}
+              height={tool.size}
+              class="h-auto w-auto rounded-full"
+              src={tool.img}
+              alt={tool.name}
+              style={{
+                width: `${tool.size}px`,
+                height: `${tool.size}px`,
+              }}
+            />
+          </div>
+        </div>
+      ))
+    }
+  </TechnologySlider>
 </Layout>

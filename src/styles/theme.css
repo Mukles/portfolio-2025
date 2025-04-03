@@ -53,17 +53,7 @@
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-rotate1: rotate1 10s linear infinite;
-  --animate-marquee: marquee 10s linear infinite;
-  --animate-marquee-vertical: marquee-vertical 10s linear infinite;
-
-  @keyframes rotate1 {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(1turn);
-    }
-  }
+  --animate-boomerange: boomerange 2.4s linear infinite alternate;
 
   @keyframes accordion-down {
     from {
@@ -84,20 +74,14 @@
   }
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
+@keyframes boomerange {
+  0% {
+    transform: rotate(10deg);
   }
-  to {
-    transform: translateX(calc(-100% - var(--gap)));
+
+  100% {
+    transform: rotate(0deg);
   }
 }
 
-@keyframes marquee-vertical {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(calc(-100% - var(--gap)));
-  }
-}
+/*# https://gsap.com/community/forums/topic/27739-change-marquee-direction-on-scroll/ */

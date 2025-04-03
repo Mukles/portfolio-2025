@@ -1,0 +1,134 @@
+---
+
+---
+
+<section class="section-lg pb-28">
+  <div class="container-fluid">
+    <div class="bg-light rounded-[45px]">
+      <div class="marquee-wrapper">
+        <div class="marquee">
+          <slot />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  function createInfiniteMarquee() {
+    const wrapper = document.querySelector(".marquee-wrapper");
+    const marquee = document.querySelector(".marquee");
+
+    if (!wrapper || !marquee) return;
+
+    // Clear existing animations
+    gsap.killTweensOf(".marquee");
+    gsap.set(".marquee", { clearProps: "all" });
+
+    // Remove existing clones
+    const existingClones = document.querySelectorAll(
+      ".marquee:not(:first-child)"
+    );
+    existingClones.forEach((clone) => clone.remove());
+
+    // Calculate required clones
+    const itemWidth = (marquee as HTMLElement).offsetWidth;
+    const screenWidth = window.innerWidth;
+    const numClones = Math.ceil((screenWidth * 3) / itemWidth);
+
+    // Create clones
+    for (let i = 0; i < numClones; i++) {
+      const clone = marquee.cloneNode(true);
+      wrapper.appendChild(clone);
+    }
+
+    // Set up animation timeline
+    const timeline = gsap.timeline({
+      repeat: -1,
+      defaults: { ease: "none" },
+    });
+
+    const elements = gsap.utils.toArray<HTMLElement>(".marquee");
+    timeline.to(elements, {
+      xPercent: -100,
+      duration: 30,
+      stagger: {
+        each: 0,
+        repeat: -1,
+      },
+    });
+
+    // Scroll-based speed and direction control
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: "top bottom",
+      end: "bottom top",
+      onUpdate: (self) => {
+        const scrollSpeed = Math.abs(self.getVelocity() / 1000);
+        const direction = self.direction;
+        const baseSpeed = 1;
+        const speedFactor = Math.max(0.2, Math.min(scrollSpeed * 0.5, 2));
+
+        // Reverse animation direction based on scroll direction
+        if (direction > 0) {
+          // Scrolling down
+          timeline.timeScale(-1 * (baseSpeed + speedFactor));
+        } else if (direction < 0) {
+          // Scrolling up
+          timeline.timeScale(baseSpeed + speedFactor);
+        } else {
+          // Not scrolling, maintain current direction but at base speed
+          timeline.timeScale(timeline.timeScale() < 0 ? -baseSpeed : baseSpeed);
+        }
+      },
+      markers: false,
+    });
+
+    return timeline;
+  }
+
+  // Initialize immediately and on load to ensure it works in all cases
+  let marqueeAnimation: gsap.core.Timeline | undefined;
+
+  // Initialize immediately
+  marqueeAnimation = createInfiniteMarquee();
+
+  // Also initialize on load as a fallback
+  document.addEventListener("DOMContentLoaded", () => {
+    if (!marqueeAnimation) {
+      marqueeAnimation = createInfiniteMarquee();
+    }
+  });
+
+  // Handle resize with debounce
+  let resizeTimer: number;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (marqueeAnimation) {
+        marqueeAnimation.kill();
+      }
+      marqueeAnimation = createInfiniteMarquee();
+    }, 250);
+  });
+</script>
+
+<style>
+  .marquee-wrapper {
+    overflow-x: clip;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .marquee {
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+  }
+</style>

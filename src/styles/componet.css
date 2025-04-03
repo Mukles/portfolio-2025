@@ -10,6 +10,10 @@
   @apply py-16 md:py-24 lg:py-16;
 }
 
+.section-lg {
+  @apply py-24 lg:py-16;
+}
+
 /* Form Components */
 .form-group {
   @apply space-y-3;
@@ -94,6 +98,15 @@ textarea {
   }
 }
 
-.animation-play-state-preserve {
-  animation-fill-mode: both;
+.tool {
+  @apply relative flex items-center justify-center px-17 py-28;
+
+  &::before {
+    content: "";
+    @apply bg-primary/50 absolute top-1/2 left-0 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full;
+  }
+
+  img {
+    @apply size-auto rounded-full;
+  }
 }

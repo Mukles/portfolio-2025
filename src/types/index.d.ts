@@ -26,3 +26,24 @@ declare module "homepage-service" {
     };
   }
 }
+
+declare module "about-types" {
+  export interface Tool {
+    name: string;
+    img: string;
+    size: number;
+  }
+
+  export interface About {
+    image: string;
+    myself: {
+      title: string;
+      descriptions: string[];
+    };
+    skills: {
+      title: string;
+      description: string;
+    };
+    tools: Tool[];
+  }
+}
