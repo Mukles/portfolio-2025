@@ -14,12 +14,12 @@ const pathname = Astro.url.pathname;
       )}
     >
       <div class={cn(pathname === "/contact" && "hidden")}>
-        <h1 class="text-primary mb-10 text-6xl font-medium">
+        <h1 class="text-primary split-lines mb-10 text-6xl font-medium">
           Have a project in mind?
         </h1>
         <Button
           variant="warning"
-          class="group font-satoshi cursor-pointer items-center justify-center space-x-0 px-6 text-lg normal-case transition-all duration-300"
+          class="group element-reveal font-satoshi cursor-pointer items-center justify-center space-x-0 px-6 pr-2.5 text-lg normal-case transition-all duration-300"
           href="/contact"
         >
           <span> Contact me </span>
@@ -37,13 +37,15 @@ const pathname = Astro.url.pathname;
           pathname === "/contact" && "pt-0"
         )}
       >
-        <div class="col-span-1">
-          <h2 class="text-primary text-left text-2xl font-medium">
-            <span class="text-base"> Credits </span>
-          </h2>
+        <div class="col-span-1 text-left">
+          <button
+            class="text-primary relative mr-auto cursor-pointer text-left text-base font-medium before:absolute before:bottom-0 before:left-0 before:h-0.5 before:w-full before:bg-[#f5c3b4] before:transition-[height] before:duration-200 before:ease-in-out hover:before:h-full"
+          >
+            <span class="split-lines relative z-50"> Credits </span>
+          </button>
         </div>
         <div class="col-span-1">
-          <h2 class="text-primary text-2xl font-medium">
+          <h2 class="text-primary split-lines text-2xl font-medium">
             <span class="text-base">
               Reach out for collaboration or say hi at <br />
               <a href="mailto:hello@josephroque.com">hello@josephroque.com</a>

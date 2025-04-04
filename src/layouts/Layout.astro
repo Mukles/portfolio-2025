@@ -3,7 +3,8 @@ import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import TWSizeIndecator from "@/components/TWSizeIndecator.astro";
 import { ClientRouter } from "astro:transitions";
-import "../styles/main.css";
+import "@/src/styles/main.css";
+import "lenis/dist/lenis.css";
 ---
 
 <!doctype html>
@@ -17,9 +18,176 @@ import "../styles/main.css";
     <ClientRouter />
   </head>
   <body>
-    <TWSizeIndecator />
-    <Header />
-    <slot />
-    <Footer />
+    <div class="scroll-container">
+      <TWSizeIndecator />
+      <Header />
+      <slot />
+      <Footer />
+    </div>
   </body>
 </html>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import SplitType from "split-type";
+
+  document.addEventListener("astro:page-load", () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Select all elements with .split-lines
+    document.querySelectorAll(".split-lines").forEach((el) => {
+      // Split the current element into lines
+      const split = new SplitType(el as HTMLElement, {
+        types: "lines",
+        lineClass: "line",
+        tagName: "span",
+      });
+
+      // Wrap each line in a div for overflow/animation
+      split.lines?.forEach((line) => {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("line-wrap");
+        line.parentNode?.insertBefore(wrapper, line);
+        wrapper.appendChild(line);
+      });
+
+      // Animate each set of lines independently with ScrollTrigger
+      gsap.from(split.lines, {
+        y: "100%",
+        duration: 0.8,
+        stagger: 0.05,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 90%",
+          toggleActions: "play none none reset",
+        },
+      });
+    });
+  });
+</script>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("astro:page-load", () => {
+    const staggerRevealContainers =
+      document.querySelectorAll(".stagger-reveal");
+
+    staggerRevealContainers.forEach((container) => {
+      const children = container.children;
+
+      gsap.from(children, {
+        y: "100%",
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: container,
+          start: "top 80%",
+          toggleActions: "play none none reset",
+        },
+      });
+    });
+  });
+</script>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener("astro:page-load", () => {
+    const revealElements = document.querySelectorAll(".element-reveal");
+    revealElements.forEach((element) => {
+      gsap.from(element, {
+        y: "40",
+        opacity: 0,
+        duration: 0.7,
+        ease: "power3.inOut",
+        scrollTrigger: {
+          trigger: element,
+          start: "top 80%",
+          toggleActions: "play none none reset",
+        },
+      });
+    });
+  });
+</script>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener("astro:page-load", () => {
+    const balls = document.querySelectorAll(".ball-reveal");
+    balls.forEach((ball) => {
+      gsap.from(ball, {
+        scale: 0.5,
+        rotate: 30,
+        opacity: 0,
+        duration: 0.7,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: ball,
+          toggleActions: "play none none reset",
+        },
+      });
+    });
+  });
+</script>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("astro:page-load", () => {
+    const scrollContainer = document.querySelector(".scroll-container");
+
+    // Ensure the element exists before applying GSAP
+    if (scrollContainer) {
+      gsap.to(scrollContainer, {
+        y: () => window.innerHeight * 0.5,
+        ease: "power1.inOut",
+        scrollTrigger: {
+          trigger: scrollContainer,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+          markers: false,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            console.log("Scroll progress:", self.progress);
+          },
+        },
+      });
+    } else {
+      console.warn("Scroll container not found!");
+    }
+  });
+</script>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener("astro:page-load", () => {
+    document.querySelectorAll(".item-img").forEach((img) => {
+      gsap.to(img, {
+        yPercent: -18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: img,
+          start: "top bottom", // when image top hits bottom of viewport
+          end: "bottom top", // when image bottom hits top of viewport
+          scrub: true, // link animation progress to scroll
+        },
+      });
+    });
+  });
+</script>

@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import ProjectCard from "./ui/projectCard.astro";
+import ProjectCard from "./ui/ProjectCard.astro";
 const projects = await getCollection("projects");
 ---
 
@@ -10,8 +10,8 @@ const projects = await getCollection("projects");
       {
         projects.map((project) => {
           return (
-            <div class="col-span-1">
-              <ProjectCard project={project} />{" "}
+            <div class="element-reveal col-span-1">
+              <ProjectCard project={project} />
             </div>
           );
         })

@@ -3,28 +3,47 @@ import socialLinks from "@/config/socail.json";
 import { Image } from "astro:assets";
 ---
 
-<ul
-  class="in-circle relative mt-10 flex size-20 items-center justify-center gap-40"
->
+<ul class="in-circle relative mt-18 flex size-20 items-center justify-center">
   {
-    socialLinks.map((link) => (
-      <li>
-        <a href="mailto:rekhchandsahu07@gmail.com" class="social-icon">
-          <Image
-            src="/images/icons/social/gmail.svg"
-            width={32}
-            height={32}
-            alt="gmail"
-          />
-
-          <Image
-            src="/images/icons/social/gmail-badge.svg"
-            width={150}
-            height={150}
-            alt="gmail-badge"
-          />
+    socialLinks.map((link, index) => (
+      <li class="absolute">
+        <a href={link.url} class="social-icon">
+          <Image src={link.image} width={32} height={32} alt={link.name} />
+          <Image src={link.badge} width={150} height={150} alt={link.icon} />
         </a>
       </li>
     ))
   }
 </ul>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener("astro:page-load", () => {
+    const socialIcons = document.querySelectorAll(".in-circle li");
+    const positions = [
+      { left: "-450%", top: "-50%" },
+      { left: "-150%", top: "0%" },
+      { left: "150%", top: "0%" },
+      { left: "450%", top: "-50%" },
+    ];
+
+    gsap.fromTo(
+      socialIcons,
+      {
+        left: "50%",
+        top: "50%",
+        opacity: 0,
+      },
+      {
+        left: (i) => positions[i].left,
+        top: (i) => positions[i].top,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power1.inOut",
+      }
+    );
+  });
+</script>

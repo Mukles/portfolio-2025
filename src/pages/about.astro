@@ -46,13 +46,11 @@ const { image, myself, skills, tools } = Object.values(
 
   <section class="section">
     <div class="container-fluid">
-      <Image
-        class={"rounded-[45px]"}
-        src={image}
-        width={1480}
-        height={888}
-        alt="me"
-      />
+      <div class="item-img-wrap rounded-5xl overflow-hidden">
+        <div class={"item-img"}>
+          <Image src={image} width={1480} height={1066} alt="me" />
+        </div>
+      </div>
     </div>
   </section>
 
@@ -61,7 +59,7 @@ const { image, myself, skills, tools } = Object.values(
       <div class="flex justify-between">
         <div class="max-w-[880px] flex-1">
           <h3
-            class="font-satoshi text-5xl leading-tight font-medium tracking-tight"
+            class="font-satoshi split-lines text-5xl leading-tight font-medium tracking-tight"
           >
             {myself.title}
           </h3>
@@ -76,7 +74,9 @@ const { image, myself, skills, tools } = Object.values(
       <div class="mt-11 flex gap-16">
         {
           myself.descriptions.map((desc) => {
-            return <p class="text-xl tracking-tight">{desc}</p>;
+            return (
+              <p class="split-lines flex-1 text-xl tracking-tight">{desc}</p>
+            );
           })
         }
       </div>
@@ -88,12 +88,12 @@ const { image, myself, skills, tools } = Object.values(
       <div class="flex justify-between">
         <div class="max-w-[650px] flex-1">
           <h3
-            class="font-satoshi text-5xl leading-tight font-medium tracking-tight"
+            class="font-satoshi split-lines text-5xl leading-tight font-medium tracking-tight"
           >
             {skills.title}
           </h3>
 
-          <p class="mt-8 text-xl tracking-tight">
+          <p class="split-lines mt-8 text-xl tracking-tight">
             {skills.description}
           </p>
         </div>

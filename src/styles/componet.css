@@ -110,3 +110,32 @@ textarea {
     @apply size-auto rounded-full;
   }
 }
+
+.line-wrap {
+  @apply overflow-hidden;
+}
+
+.line {
+  will-change: transform;
+}
+
+.split-lines {
+  font-kerning: none;
+}
+
+.item-img-wrap {
+  @apply relative overflow-hidden;
+
+  &::before {
+    content: "";
+    @apply block pt-[60%];
+  }
+
+  .item-img {
+    @apply absolute top-0 left-0 h-[120%] w-full transform-none;
+
+    img {
+      @apply absolute top-0 left-0 h-full w-full object-cover;
+    }
+  }
+}

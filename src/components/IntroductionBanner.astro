@@ -18,17 +18,17 @@ const { title, description, button, services } = Object.values(
 
 <section class="section">
   <div class="container">
-    <Badge variant="primary">
+    <Badge variant="accent">
       <p>What I offer</p>
     </Badge>
     <div class="mt-12 flex justify-between">
       <div class="basis-[calc(50%_-_6rem)]">
         <h2
-          class="font-satoshi text-6xl leading-[66px] font-medium tracking-tighter"
+          class="font-satoshi split-lines text-6xl leading-[66px] font-medium tracking-tighter"
         >
           {title}
         </h2>
-        <p class="mt-9 text-xl">
+        <p class="split-lines mt-9 text-xl">
           {description}
         </p>
 
@@ -36,7 +36,7 @@ const { title, description, button, services } = Object.values(
           button.enable && (
             <Button
               variant="warning"
-              class="group font-satoshi mt-11 items-center justify-center space-x-0 px-6 text-lg normal-case transition-all duration-300"
+              class="group element-reveal font-satoshi mt-11 items-center justify-center space-x-0 px-6 pr-2.5 text-lg normal-case transition-all duration-300"
               href={button.label}
             >
               <span>{button.label}</span>

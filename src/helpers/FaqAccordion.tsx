@@ -13,7 +13,7 @@ type Props = {
 
 export default function FaqAccordion({ faqItems }: Props) {
   return (
-    <Accordion type="multiple">
+    <Accordion className="stagger-reveal" type="multiple">
       {faqItems.map((faq) => {
         return (
           <AccordionItem value={faq.question} key={faq.question}>

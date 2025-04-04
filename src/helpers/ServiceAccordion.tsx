@@ -13,7 +13,7 @@ type Props = {
 
 export default function ServiceAccordion({ serviceItems }: Props) {
   return (
-    <Accordion type="multiple">
+    <Accordion className="stagger-reveal" type="multiple">
       {serviceItems.map((service, index) => {
         return (
           <AccordionItem value={service.title} key={service.title}>

@@ -7,24 +7,24 @@
     "image": "/images/icons/social/gmail.svg"
   },
   {
-    "name": "Gmail",
+    "name": "Dribble",
     "url": "mailto:rekhchandsahu07@gmail.com",
-    "icon": "gmail",
-    "badge": "/images/icons/social/gmail-badge.svg",
-    "image": "/images/icons/social/gmail.svg"
+    "icon": "dribble",
+    "badge": "/images/icons/social/dribble-badge.svg",
+    "image": "/images/icons/social/dribble.svg"
   },
   {
-    "name": "Gmail",
+    "name": "Instagram",
     "url": "mailto:rekhchandsahu07@gmail.com",
-    "icon": "gmail",
-    "badge": "/images/icons/social/gmail-badge.svg",
-    "image": "/images/icons/social/gmail.svg"
+    "icon": "instagram",
+    "badge": "/images/icons/social/instagram-badge.svg",
+    "image": "/images/icons/social/instagram.svg"
   },
   {
-    "name": "Gmail",
+    "name": "LinkedIn",
     "url": "mailto:rekhchandsahu07@gmail.com",
-    "icon": "gmail",
-    "badge": "/images/icons/social/gmail-badge.svg",
-    "image": "/images/icons/social/gmail.svg"
+    "icon": "linkedin",
+    "badge": "/images/icons/social/linkedin-badge.svg",
+    "image": "/images/icons/social/linkedin.svg"
   }
 ]
