@@ -1,0 +1,59 @@
+---
+
+---
+
+<div class="page-transition">
+  <div class="circle bg-accent -top-[15%] -left-[15%] size-[80vw]"></div>
+  <div class="circle bg-green -top-[28%] left-[45%]"></div>
+  <div class="circle bg-pink top-[52%] left-[33%] size-[52vw]"></div>
+  <div class="circle bg-warning top-[60%] left-[75%] size-[36vw]"></div>
+</div>
+
+<script>
+  import gsap from "gsap";
+
+  document.addEventListener("astro:after-swap", function () {
+    document.addEventListener("astro:after-swap", () => {
+      const pageTransition = document.querySelector(".page-transition");
+      const circles = document.querySelectorAll(".circle");
+
+      // Reset initial state
+      gsap.set(pageTransition, {
+        visibility: "visible",
+        opacity: 1,
+      });
+
+      gsap.set(circles, {
+        opacity: 0,
+        scale: 0.5,
+      });
+
+      const tl = gsap.timeline();
+
+      // Animate circles in
+      tl.to(circles, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power3.in",
+      });
+
+      // Scale down and fade out
+      tl.to(circles, {
+        opacity: 0,
+        scale: 0.5,
+        duration: 0.2,
+        stagger: 0.1,
+        ease: "power2.out",
+      });
+
+      // Hide the transition container
+      tl.to(pageTransition, {
+        opacity: 0,
+        visibility: "hidden",
+        duration: 0.3,
+      });
+    });
+  });
+</script>

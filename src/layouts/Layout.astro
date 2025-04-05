@@ -5,6 +5,7 @@ import TWSizeIndecator from "@/components/TWSizeIndecator.astro";
 import { ClientRouter } from "astro:transitions";
 import "@/src/styles/main.css";
 import "lenis/dist/lenis.css";
+import PageTransition from "@/components/PageTransition.astro";
 ---
 
 <!doctype html>
@@ -18,7 +19,8 @@ import "lenis/dist/lenis.css";
     <ClientRouter />
   </head>
   <body>
-    <div class="scroll-container">
+    <div class="">
+      <PageTransition />
       <TWSizeIndecator />
       <Header />
       <slot />

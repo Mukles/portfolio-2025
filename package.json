@@ -19,7 +19,6 @@
     "astro": "^5.5.5",
     "class-variance-authority": "^0.7.1",
     "gsap": "^3.12.7",
-    "lenis": "^1.2.3",
     "lucide-astro": "^0.484.0",
     "marked": "^15.0.7",
     "react": "^19.0.0",
