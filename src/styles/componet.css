@@ -141,7 +141,7 @@ textarea {
 }
 
 .page-transition {
-  @apply invisible fixed top-0 left-0 z-50 h-screen max-h-screen w-full overflow-hidden opacity-0;
+  @apply bg-background invisible fixed top-0 left-0 z-50 h-screen max-h-screen w-full overflow-hidden opacity-0;
 }
 
 .circle {
