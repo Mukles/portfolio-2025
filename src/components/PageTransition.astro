@@ -48,6 +48,8 @@
   }
 
   document.addEventListener("astro:before-preparation", onRouteChange);
-  document.addEventListener("astro:after-preparation", afterPageLoad);
+
+  // document.addEventListener("astro:after-preparation", afterPageLoad);
+
   document.addEventListener("astro:after-swap", afterPageLoad);
 </script>
