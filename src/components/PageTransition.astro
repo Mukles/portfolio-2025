@@ -33,15 +33,6 @@
     const pageTransition = document.querySelector(".page-transition");
     const circles = document.querySelectorAll(".circle");
 
-    const originalLoader = event.loader;
-
-    event.loader = async function () {
-      const { startSpinner } = await import("./spinner.js");
-      const stop = startSpinner();
-      await originalLoader();
-      stop();
-    };
-
     gsap.to(pageTransition, {
       visibility: "visible",
       opacity: 1,
