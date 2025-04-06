@@ -13,7 +13,7 @@
   import type { TransitionBeforePreparationEvent } from "astro:transitions/client";
   import gsap from "gsap";
 
-  function afterPageLoad(event: TransitionBeforePreparationEvent) {
+  function afterPageLoad(event: Event) {
     const pageTransition = document.querySelector(".page-transition");
     const circles = document.querySelectorAll(".circle");
     const tl = gsap.timeline();
@@ -32,7 +32,6 @@
   function onRouteChange(event: TransitionBeforePreparationEvent) {
     const pageTransition = document.querySelector(".page-transition");
     const circles = document.querySelectorAll(".circle");
-
     gsap.to(pageTransition, {
       visibility: "visible",
       opacity: 1,
@@ -50,7 +49,7 @@
 
   document.addEventListener("astro:before-preparation", onRouteChange);
 
-  document.addEventListener("astro:after-preparation", (event) => {});
+  document.addEventListener("astro:after-swap", afterPageLoad);
 
   document.addEventListener("DOMContentLoaded", () => {
     const isInitialLoad = !document.startViewTransition;
