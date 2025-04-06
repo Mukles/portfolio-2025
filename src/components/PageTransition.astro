@@ -10,35 +10,45 @@
 </div>
 
 <script>
+  import type { TransitionBeforePreparationEvent } from "astro:transitions/client";
   import gsap from "gsap";
 
-  function afterPageLoad() {
+  function afterPageLoad(event: TransitionBeforePreparationEvent) {
     const pageTransition = document.querySelector(".page-transition");
     const circles = document.querySelectorAll(".circle");
-
     const tl = gsap.timeline();
 
     tl.to(circles, {
       scale: 0.5,
       opacity: 0,
+      stagger: -0.1,
+      ease: "power3.in",
     }).to(pageTransition, {
       opacity: 0,
       visibility: "hidden",
     });
   }
 
-  afterPageLoad();
-
-  function onRouteChange() {
+  function onRouteChange(event: TransitionBeforePreparationEvent) {
     const pageTransition = document.querySelector(".page-transition");
     const circles = document.querySelectorAll(".circle");
-    const tl = gsap.timeline();
-    tl.to(pageTransition, {
+
+    const originalLoader = event.loader;
+
+    event.loader = async function () {
+      const { startSpinner } = await import("./spinner.js");
+      const stop = startSpinner();
+      await originalLoader();
+      stop();
+    };
+
+    gsap.to(pageTransition, {
       visibility: "visible",
       opacity: 1,
       duration: 0.1,
       ease: "power1.in",
-    }).to(circles, {
+    });
+    gsap.to(circles, {
       opacity: 1,
       scale: 1,
       duration: 0.8,
@@ -49,7 +59,24 @@
 
   document.addEventListener("astro:before-preparation", onRouteChange);
 
-  // document.addEventListener("astro:after-preparation", afterPageLoad);
+  document.addEventListener("astro:after-preparation", (event) => {});
 
-  document.addEventListener("astro:after-swap", afterPageLoad);
+  document.addEventListener("DOMContentLoaded", () => {
+    const isInitialLoad = !document.startViewTransition;
+    console.log({ isInitialLoad });
+    if (isInitialLoad) return;
+
+    const pageTransition = document.querySelector(".page-transition");
+    const circles = document.querySelectorAll(".circle");
+
+    gsap.set(circles, {
+      scale: 0.5,
+      opacity: 0,
+    });
+
+    gsap.set(pageTransition, {
+      opacity: 0,
+      visibility: "hidden",
+    });
+  });
 </script>
