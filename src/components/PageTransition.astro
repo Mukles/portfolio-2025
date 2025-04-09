@@ -2,71 +2,9 @@
 
 ---
 
-<div class="page-transition">
+<div class="page-transition invisible opacity-0">
   <div class="circle bg-accent -top-[15%] -left-[15%] size-[80vw]"></div>
   <div class="circle bg-green -top-[28%] left-[45%]"></div>
   <div class="circle bg-pink top-[52%] left-[33%] size-[52vw]"></div>
   <div class="circle bg-warning top-[60%] left-[75%] size-[36vw]"></div>
 </div>
-
-<script>
-  import type { TransitionBeforePreparationEvent } from "astro:transitions/client";
-  import gsap from "gsap";
-
-  function afterPageLoad(event: Event) {
-    const pageTransition = document.querySelector(".page-transition");
-    const circles = document.querySelectorAll(".circle");
-    const tl = gsap.timeline();
-
-    tl.to(circles, {
-      scale: 0.5,
-      opacity: 0,
-      stagger: -0.1,
-      ease: "power3.in",
-    }).to(pageTransition, {
-      opacity: 0,
-      visibility: "hidden",
-    });
-  }
-
-  function onRouteChange(event: TransitionBeforePreparationEvent) {
-    const pageTransition = document.querySelector(".page-transition");
-    const circles = document.querySelectorAll(".circle");
-    gsap.to(pageTransition, {
-      visibility: "visible",
-      opacity: 1,
-      duration: 0.1,
-      ease: "power1.in",
-    });
-    gsap.to(circles, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power3.in",
-    });
-  }
-
-  document.addEventListener("astro:before-preparation", onRouteChange);
-
-  document.addEventListener("astro:after-swap", afterPageLoad);
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const isInitialLoad = !document.startViewTransition;
-    console.log({ isInitialLoad });
-    if (isInitialLoad) return;
-
-    const pageTransition = document.querySelector(".page-transition");
-    const circles = document.querySelectorAll(".circle");
-
-    gsap.set(circles, {
-      scale: 0.5,
-      opacity: 0,
-    });
-
-    gsap.set(pageTransition, {
-      opacity: 0,
-      visibility: "hidden",
-    });
-  });
-</script>

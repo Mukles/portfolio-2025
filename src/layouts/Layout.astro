@@ -1,10 +1,15 @@
 ---
+type Props = {
+  namespace: string;
+  title: string;
+};
+
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import TWSizeIndecator from "@/components/TWSizeIndecator.astro";
-import { ClientRouter } from "astro:transitions";
+import TWSizeIndicator from "@/components/TWSizeIndicator.astro";
 import "@/src/styles/main.css";
-import PageTransition from "@/components/PageTransition.astro";
+import PageTransition from "../components/PageTransition.astro";
+const { namespace, title } = Astro.props as Props;
 ---
 
 <!doctype html>
@@ -14,26 +19,121 @@ import PageTransition from "@/components/PageTransition.astro";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
-    <ClientRouter />
+    <title>{title}</title>
   </head>
   <body>
-    <div class="">
-      <PageTransition />
-      <TWSizeIndecator />
-      <Header />
-      <slot />
-      <Footer />
+    <TWSizeIndicator />
+    <PageTransition />
+    <Header />
+    <div data-barba="wrapper">
+      <main data-barba="container" data-barba-namespace={namespace}>
+        <slot />
+      </main>
     </div>
+    <Footer />
   </body>
 </html>
+
+<script>
+  import barba from "@barba/core";
+  import gsap from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const pageTransition = document.querySelector(".page-transition");
+    const circles = document.querySelectorAll(".circle");
+
+    gsap.set(pageTransition, {
+      opacity: 0,
+      visibility: "hidden",
+    });
+
+    gsap.set(circles, {
+      opacity: 0,
+      scale: 0.5,
+    });
+  });
+
+  function afterPageLoad() {
+    const pageTransition = document.querySelector(".page-transition");
+    const circles = document.querySelectorAll(".circle");
+
+    return new Promise((resolve) => {
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.inOut", duration: 0.6 },
+        onComplete: resolve,
+      });
+
+      tl.to(circles, {
+        scale: 0.3,
+        opacity: 0,
+        stagger: {
+          each: 0.1,
+          from: "end",
+        },
+      }).to(
+        pageTransition,
+        {
+          opacity: 0,
+          visibility: "hidden",
+        },
+        "-=0.3"
+      );
+    });
+  }
+
+  function onRouteChange() {
+    const pageTransition = document.querySelector(".page-transition");
+    const circles = document.querySelectorAll(".circle");
+    return new Promise((resolve) => {
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out", duration: 0.6 },
+        onComplete: resolve,
+      });
+
+      tl.set(pageTransition, { visibility: "visible" })
+        .to(pageTransition, { opacity: 1, duration: 0.2 })
+        .to(circles, {
+          opacity: 1,
+          scale: 1,
+          stagger: 0.1,
+        });
+    });
+  }
+
+  barba.init({
+    transitions: [
+      {
+        async leave(data) {
+          await onRouteChange();
+          await gsap.to(data.current.container, {
+            opacity: 0,
+            y: 0,
+            duration: 0.3,
+          });
+        },
+        async enter(data) {
+          const audio = new Audio("sounds/page-transition-out.mp3");
+          audio.volume = 0.4;
+          audio.play().catch(() => {}); // Prevent promise errors
+          await afterPageLoad();
+          gsap.from(data.next.container, {
+            opacity: 0,
+            y: "120",
+            duration: 0.2,
+          });
+          ScrollTrigger.refresh();
+        },
+      },
+    ],
+  });
+</script>
 
 <script>
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   import SplitType from "split-type";
 
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // Select all elements with .split-lines
@@ -74,13 +174,12 @@ import PageTransition from "@/components/PageTransition.astro";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
 
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const staggerRevealContainers =
       document.querySelectorAll(".stagger-reveal");
 
     staggerRevealContainers.forEach((container) => {
       const children = container.children;
-
       gsap.from(children, {
         y: "100%",
         opacity: 0,
@@ -101,7 +200,7 @@ import PageTransition from "@/components/PageTransition.astro";
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const revealElements = document.querySelectorAll(".element-reveal");
     revealElements.forEach((element) => {
       gsap.from(element, {
@@ -123,7 +222,7 @@ import PageTransition from "@/components/PageTransition.astro";
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const balls = document.querySelectorAll(".ball-reveal");
     balls.forEach((ball) => {
       gsap.from(ball, {
@@ -147,7 +246,7 @@ import PageTransition from "@/components/PageTransition.astro";
 
   gsap.registerPlugin(ScrollTrigger);
 
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const scrollContainer = document.querySelector(".scroll-container");
 
     // Ensure the element exists before applying GSAP
@@ -177,7 +276,7 @@ import PageTransition from "@/components/PageTransition.astro";
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".item-img").forEach((img) => {
       gsap.to(img, {
         yPercent: -18,

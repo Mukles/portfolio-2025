@@ -21,7 +21,7 @@ import { Image } from "astro:assets";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);
-  document.addEventListener("astro:page-load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const socialIcons = document.querySelectorAll(".in-circle li");
     const positions = [
       { left: "-450%", top: "-50%" },

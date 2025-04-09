@@ -8,6 +8,7 @@ interface Props {
 
 const { href } = Astro.props as Props;
 const isActive = Astro.url.pathname === href;
+console.log({ isActive });
 ---
 
 <a href={href} class={cn("text-primary", isActive && "relative")}>

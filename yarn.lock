@@ -248,6 +248,14 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
+"@barba/core@^2.10.3":
+  version "2.10.3"
+  resolved "https://registry.yarnpkg.com/@barba/core/-/core-2.10.3.tgz#277378919964b629ff2ed02bf57c869cb31b89c5"
+  integrity sha512-ovVeT1wUcdMg8Lu6Iel6yEBW2+s6iA7qfRLCVKTSIfJU9csiawU0UOmVJdcoy3WNOsF2Ur9UfoTUC9aDcm4c0w==
+  dependencies:
+    is-promise "^4.0.0"
+    path-to-regexp "^6.2.2"
+
 "@bufbuild/protobuf@^2.0.0":
   version "2.2.5"
   resolved "https://registry.npmjs.org/@bufbuild/protobuf/-/protobuf-2.2.5.tgz"
@@ -1387,6 +1395,13 @@ defu@^6.1.4:
   resolved "https://registry.npmjs.org/defu/-/defu-6.1.4.tgz"
   integrity sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg==
 
+delegate-it@^6.0.0:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/delegate-it/-/delegate-it-6.2.1.tgz#a264a7406bc369140135cb0fcc1f8e6c3cde3e7a"
+  integrity sha512-3/P/rwj+zal/99EEml7y1+bXjBY+Wok/WSg0EngWAtdvHK6iKTPbABQE84RyyRfR0Fmejs93BrkZQWlgyeWuFQ==
+  dependencies:
+    typed-query-selector "^2.11.2"
+
 dequal@^2.0.0:
   version "2.0.3"
   resolved "https://registry.npmjs.org/dequal/-/dequal-2.0.3.tgz"
@@ -1913,6 +1928,11 @@ is-plain-obj@^4.0.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-4.1.0.tgz"
   integrity sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==
+
+is-promise@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/is-promise/-/is-promise-4.0.0.tgz#42ff9f84206c1991d26debf520dd5c01042dd2f3"
+  integrity sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==
 
 is-wsl@^3.1.0:
   version "3.1.0"
@@ -2717,6 +2737,11 @@ oniguruma-to-es@^4.1.0:
     regex "^6.0.1"
     regex-recursion "^6.0.2"
 
+opencollective-postinstall@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
+  integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
+
 p-limit@^6.2.0:
   version "6.2.0"
   resolved "https://registry.npmjs.org/p-limit/-/p-limit-6.2.0.tgz"
@@ -2773,6 +2798,11 @@ parse5@^7.0.0:
   integrity sha512-BuBYQYlv1ckiPdQi/ohiivi9Sagc9JG+Ozs0r7b/0iK3sKmrb0b9FdWdBbOdx6hBCM/F9Ir82ofnBhtZOjCRPQ==
   dependencies:
     entities "^4.5.0"
+
+path-to-regexp@^6.2.1, path-to-regexp@^6.2.2:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.3.0.tgz#2b6a26a337737a8e1416f9272ed0766b1c0389f4"
+  integrity sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==
 
 picocolors@^1.0.0, picocolors@^1.1.1:
   version "1.1.1"
@@ -3415,6 +3445,15 @@ supports-color@^8.1.1:
   dependencies:
     has-flag "^4.0.0"
 
+swup@^4.8.1:
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/swup/-/swup-4.8.1.tgz#20ac6bf5b1aa7d4860d676451cc49c02d1affe9e"
+  integrity sha512-MEXrQUvsUE9lyt1SX8KEZcGmPigAvtkVvHwJf22MOKsjb+aDgiljTc5LTXz0ehsA/1OOXRqvtS4kWLey26i/hQ==
+  dependencies:
+    delegate-it "^6.0.0"
+    opencollective-postinstall "^2.0.2"
+    path-to-regexp "^6.2.1"
+
 sync-child-process@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/sync-child-process/-/sync-child-process-1.0.2.tgz"
@@ -3479,6 +3518,11 @@ type-fest@^4.21.0:
   version "4.38.0"
   resolved "https://registry.npmjs.org/type-fest/-/type-fest-4.38.0.tgz"
   integrity sha512-2dBz5D5ycHIoliLYLi0Q2V7KRaDlH0uWIvmk7TYlAg5slqwiPv1ezJdZm1QEM0xgk29oYWMCbIG7E6gHpvChlg==
+
+typed-query-selector@^2.11.2:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/typed-query-selector/-/typed-query-selector-2.12.0.tgz#92b65dbc0a42655fccf4aeb1a08b1dddce8af5f2"
+  integrity sha512-SbklCd1F0EiZOyPiW192rrHZzZ5sBijB6xM+cpmrwDqObvdtunOHHIk9fCGsoK5JVIYXoyEp4iEdE3upFH3PAg==
 
 ufo@^1.5.4:
   version "1.5.4"
