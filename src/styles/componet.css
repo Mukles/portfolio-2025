@@ -14,7 +14,11 @@
   @apply py-24 lg:py-16;
 }
 
-/* Form Components */
+/* Nav Link Animation */
+.nav-link.active svg {
+  @apply !block;
+}
+
 .form-group {
   @apply space-y-3;
 }

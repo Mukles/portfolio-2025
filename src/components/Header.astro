@@ -1,7 +1,8 @@
 ---
-import NavLink from "@/components/NavLink.astro";
 import ThemeSwitcher from "@/components/ThemeSwitcher.astro";
 import links from "@/config/menu.json";
+import { cn } from "../lib/utils";
+import { Icons } from "./Icons";
 ---
 
 <header class="top-0 left-0 z-50 py-2.5">
@@ -9,7 +10,12 @@ import links from "@/config/menu.json";
     <div
       class="bg-light/75 flex items-center justify-between rounded-full px-7 py-3"
     >
-      <NavLink href="/"> Rekhchand </NavLink>
+      <a href="/" class={cn("text-primary nav-link relative")}>
+        Rekhchand
+        <Icons.Wave
+          className="absolute top-1/2 left-1/2 z-10 hidden h-auto w-[126%] -translate-x-1/2 -translate-y-1/2"
+        />
+      </a>
       <nav>
         <ul class="flex items-center">
           <li>
@@ -18,7 +24,13 @@ import links from "@/config/menu.json";
           {
             links.map((link) => (
               <li class="ml-10">
-                <NavLink href={link.href}>{link.label}</NavLink>
+                <a
+                  href={link.href}
+                  class={cn("text-primary nav-link relative")}
+                >
+                  {link.label}
+                  <Icons.Wave className="absolute top-1/2 left-1/2 z-10 h-auto w-[126%] hidden  -translate-x-1/2 -translate-y-1/2" />
+                </a>
               </li>
             ))
           }
