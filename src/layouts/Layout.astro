@@ -46,25 +46,31 @@ const { namespace, title } = Astro.props as Props;
   // Initialize on document load
   document.addEventListener("DOMContentLoaded", () => {
     initializePageTransition();
-    setupBarba();
+    initializeAllAnimations();
+
+    barba.init({
+      timeout: 7000,
+      debug: true,
+      transitions: [
+        {
+          async leave(data) {
+            return gsap.to(data.current.container, {
+              opacity: 0,
+            });
+          },
+          async enter(data) {
+            return gsap.from(data.next.container, {
+              opacity: 0,
+            });
+          },
+        },
+      ],
+    });
+
+    barba.hooks?.before(() => {
+      initializeNavLink();
+    });
   });
-
-  // Function to run all page animations
-  function runPageAnimations(isPageLoad = false) {
-    // First kill all existing ScrollTrigger instances
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-    if (isPageLoad) {
-      // Force a delay for direct page loads to ensure DOM is ready
-      setTimeout(() => {
-        // Reset and initialize animations
-        initializeAllAnimations();
-      }, 300);
-    } else {
-      // For Barba transitions, run immediately
-      initializeAllAnimations();
-    }
-  }
 
   // nav link animation
   function initializeNavLink() {
@@ -92,24 +98,6 @@ const { namespace, title } = Astro.props as Props;
       if (link.parentNode) {
         link.parentNode.replaceChild(newLink, link);
       }
-
-      // Add hover event listeners
-      newLink.addEventListener("mouseenter", () => {
-        newLink.classList.add("active");
-      });
-      newLink.addEventListener("mouseleave", () => {
-        // Only remove active class if this isn't the current page link
-        const href = newLink.getAttribute("href");
-        if (
-          !(
-            href &&
-            (href === currentPath ||
-              (href !== "/" && currentPath.startsWith(href)))
-          )
-        ) {
-          newLink.classList.remove("active");
-        }
-      });
     });
   }
 
@@ -223,8 +211,6 @@ const { namespace, title } = Astro.props as Props;
     initializeSocialLinks();
     initializeSlider();
     initializeNavLink();
-    // Force a complete refresh of ScrollTrigger
-    ScrollTrigger.refresh(true);
   }
 
   // Page transition animations
@@ -516,154 +502,5 @@ const { namespace, title } = Astro.props as Props;
         ease: "power1.inOut",
       }
     );
-  }
-
-  // Set up Barba.js
-  function setupBarba() {
-    // Add click listener to all navigation links to immediately update the active state
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      link.addEventListener("click", (e) => {
-        // Only handle links going to a different page
-        if (link.getAttribute("href") !== window.location.pathname) {
-          // Clear active state from all links
-          document.querySelectorAll(".nav-link").forEach((l) => {
-            l.classList.remove("active");
-          });
-
-          // Set active state on the clicked link
-          link.classList.add("active");
-        }
-      });
-    });
-
-    barba.init({
-      timeout: 7000, // Prevent transitions from hanging indefinitely
-      transitions: [
-        {
-          leave(data) {
-            return new Promise((resolve) => {
-              try {
-                // Kill all ScrollTrigger instances
-                ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-                onRouteChange()
-                  .then(() => {
-                    gsap.to(data.current.container, {
-                      opacity: 0,
-                      y: 0,
-                      duration: 0.3,
-                      onComplete: resolve,
-                    });
-                  })
-                  .catch(() => {
-                    // Fallback if animation fails
-                    console.warn(
-                      "Leave transition animation failed, using fallback"
-                    );
-                    gsap.set(data.current.container, { opacity: 0 });
-                    resolve();
-                  });
-              } catch (err) {
-                console.error("Error in leave transition:", err);
-                // Ensure transition completes even if it fails
-                gsap.set(data.current.container, { opacity: 0 });
-                resolve();
-              }
-            });
-          },
-          enter(data) {
-            return new Promise((resolve) => {
-              try {
-                const audio = new Audio("sounds/page-transition-out.mp3");
-                audio.volume = 0.4;
-                audio.play().catch(() => {}); // Prevent promise errors
-
-                afterPageLoad()
-                  .then(() => {
-                    gsap.from(data.next.container, {
-                      opacity: 0,
-                      y: "120",
-                      duration: 0.2,
-                      onComplete: () => {
-                        // Wait  a bit for DOM to settle
-                        setTimeout(() => {
-                          try {
-                            runPageAnimations();
-                            // Explicitly update nav links after transition is handled by runPageAnimations
-                          } catch (err) {
-                            console.error("Error in page animations:", err);
-                          }
-                          resolve();
-                        }, 150);
-                      },
-                    });
-                  })
-                  .catch(() => {
-                    // Fallback if animation fails
-                    console.warn(
-                      "Enter transition animation failed, using fallback"
-                    );
-                    gsap.set(data.next.container, { opacity: 1, y: 0 });
-                    runPageAnimations();
-                    resolve();
-                  });
-              } catch (err) {
-                console.error("Error in enter transition:", err);
-                // Ensure page is visible even if animation fails
-                gsap.set(data.next.container, { opacity: 1, y: 0 });
-                runPageAnimations();
-                resolve();
-              }
-            });
-          },
-        },
-      ],
-    });
-
-    barba.hooks?.before(() => {
-      initializeNavLink();
-    });
-
-    // Handle window resize
-    window.addEventListener("resize", () => {
-      ScrollTrigger.refresh();
-    });
-
-    // Handle if page was refreshed directly
-    window.addEventListener("load", () => {
-      try {
-        // Make sure the page is at the top on refresh
-        window.scrollTo(0, 0);
-
-        // Reset all animations on page refresh/direct load
-        runPageAnimations(true);
-
-        // Add a listener for when images and other resources finish loading
-        // This helps with pages that have many resources
-        if (document.readyState !== "complete") {
-          const completeLoad = () => {
-            setTimeout(() => {
-              ScrollTrigger.refresh();
-            }, 200);
-            window.removeEventListener("load", completeLoad);
-          };
-          window.addEventListener("load", completeLoad);
-        }
-      } catch (err) {
-        console.error("Error in load event:", err);
-      }
-    });
-
-    // Handle page visibility changes (when coming back to tab)
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") {
-        try {
-          ScrollTrigger.refresh();
-          runPageAnimations();
-        } catch (err) {
-          console.error("Error in visibility change:", err);
-        }
-      }
-    });
   }
 </script>
