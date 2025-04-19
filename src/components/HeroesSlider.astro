@@ -1,0 +1,134 @@
+---
+import "swiper/css";
+import "swiper/css/mousewheel";
+import "swiper/css/pagination";
+
+export const creators = [
+  {
+    id: "chris-do",
+    name: "Chris Do",
+    description: "TheFutur • Design & Business",
+    image:
+      "https://cdn.sanity.io/images/mckmn4vy/production/ab1818f272d75059002d649ee1284e2ec7e3dd35-160x160.jpg",
+    link: "https://www.youtube.com/channel/UC-b3c7kxa5vU-bnmaROgvog",
+    bgColor: "#0000F7",
+    textColor: "#FFFFFF",
+  },
+  {
+    id: "john-smilga",
+    name: "John Smilga",
+    description: "Coding Addict • Development",
+    image:
+      "https://cdn.sanity.io/images/mckmn4vy/production/e0110707f22f5388367cc7bbb4f30c86d0804460-160x160.jpg",
+    link: "https://www.youtube.com/channel/UCMZFwxv5l-XtKi693qMJptA",
+    bgColor: "#00439E",
+    textColor: "#FFFFFF",
+  },
+  {
+    id: "filip-justic",
+    name: "Filip Justić",
+    description: "Balkan Bros • Design",
+    image:
+      "https://cdn.sanity.io/images/mckmn4vy/production/0ba555ed40841fca57e0c9e9da1d5784733a6cae-160x160.jpg",
+    link: "https://dribbble.com/filipjustic",
+    bgColor: "#E6EDED",
+    textColor: "#000000",
+  },
+  {
+    id: "khyati-trehan",
+    name: "Khyati Trehan",
+    description: "Digital art",
+    image:
+      "https://cdn.sanity.io/images/mckmn4vy/production/fd37f853abeaae2430e973cfb6450999a6e810cd-160x160.jpg",
+    link: "https://khyatitrehan.com/",
+    bgColor: "#F5F5F5",
+    textColor: "#000000",
+  },
+  {
+    id: "timothy-ricks",
+    name: "Timothy Ricks",
+    description: "Tricks • Webflow",
+    image:
+      "https://cdn.sanity.io/images/mckmn4vy/production/97ccb18f03e88d7dbf89b2acf304d1c2470d5ed4-160x160.jpg",
+    link: "https://www.youtube.com/c/TimothyRicks",
+    bgColor: "#5C31FF",
+    textColor: "#FFFFFF",
+  },
+  {
+    id: "zhenya-rynzhuk",
+    name: "Zhenya Rynzhuk",
+    description: "Design",
+    image:
+      "https://cdn.sanity.io/images/mckmn4vy/production/5de5f11e17b284f1818ec9387441505af3594720-160x160.jpg",
+    link: "https://dribbble.com/zhenyary",
+    bgColor: "#DBD5C9",
+    textColor: "#000000",
+  },
+];
+---
+
+<div class="swiper hero-slider">
+  <div class="swiper-wrapper">
+    {
+      [...creators, ...creators].map((creator, index) => (
+        <div class="swiper-slide !w-auto">
+          <a
+            href={creator.link}
+            target="_blank"
+            rel="noreferrer"
+            class={`hero-slider-item block h-[240px] w-[240px] transform rounded-full p-4 transition-transform hover:rotate-12 ${
+              index % 2 === 0 ? "mt-8" : "mb-8"
+            }`}
+            style={`background-color: ${creator.bgColor}`}
+          >
+            <div class="relative h-full w-full">
+              <svg viewBox="0 0 240 240" class="h-full w-full">
+                <defs>
+                  <path
+                    id={`curve-${creator.id}`}
+                    d="M40 120C40 75.8172 75.8172 40 120 40C164.183 40 200 75.8172 200 120"
+                  />
+                  <path
+                    id={`curve2-${creator.id}`}
+                    d="M30 120C30 169.706 70.2944 210 120 210C169.706 210 210 169.706 210 120"
+                  />
+                  <clipPath id={`clip-${creator.id}`}>
+                    <circle cx="120" cy="120" r="50" />
+                  </clipPath>
+                </defs>
+
+                <text fill={creator.textColor} text-anchor="middle">
+                  <textPath
+                    href={`#curve-${creator.id}`}
+                    startOffset="50%"
+                    class="text-xl font-bold"
+                  >
+                    {creator.name}
+                  </textPath>
+                  <textPath
+                    href={`#curve2-${creator.id}`}
+                    startOffset="50%"
+                    class="text-sm opacity-75"
+                  >
+                    {creator.description}
+                  </textPath>
+                </text>
+
+                <image
+                  href={creator.image}
+                  width="100"
+                  height="100"
+                  x="70"
+                  y="70"
+                  clip-path={`url(#clip-${creator.id})`}
+                  class="rounded-full"
+                />
+              </svg>
+            </div>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+  <div class="swiper-pagination"></div>
+</div>

@@ -1,28 +1,37 @@
 ---
 import ThemeSwitcher from "@/components/ThemeSwitcher.astro";
-import links from "@/config/menu.json";
+import { large, small } from "@/config/menu.json";
+import { Image } from "astro:assets";
+import { X } from "lucide-astro";
 import { cn } from "../lib/utils";
+import AnimatedDialog from "./AnimatedDialog.astro";
 import { Icons } from "./Icons";
 ---
 
 <header class="top-0 left-0 z-50 py-2.5">
   <div class="container-fluid">
     <div
-      class="bg-light/75 flex items-center justify-between rounded-full px-7 py-3"
+      class="bg-light/75 flex items-center justify-between rounded-full px-5 py-3 lg:px-7"
     >
-      <a href="/" class={cn("text-primary nav-link relative")}>
+      <a
+        href="/"
+        class={cn(
+          "text-primary py-0 bg-transparent px-0 text-base font-normal font-sans nav-link relative"
+        )}
+      >
         Rekhchand
         <Icons.Wave
           className="absolute top-1/2 left-1/2 z-10 hidden h-auto w-[126%] -translate-x-1/2 -translate-y-1/2"
         />
       </a>
-      <nav>
-        <ul class="flex items-center">
+
+      <nav class="hidden lg:block">
+        <ul class="items-center lg:flex">
           <li>
             <ThemeSwitcher />
           </li>
           {
-            links.map((link) => (
+            large.map((link) => (
               <li class="ml-10">
                 <a
                   href={link.href}
@@ -35,6 +44,61 @@ import { Icons } from "./Icons";
             ))
           }
         </ul>
+      </nav>
+
+      <nav class="block lg:hidden">
+        <AnimatedDialog side="Top" modalWrapperClassName="py-5">
+          <button
+            type="button"
+            class="text-primary border-light bg-background ml-auto flex size-10 cursor-pointer items-center justify-center rounded-full border lg:hidden"
+            aria-label="Open dialog"
+            slot="dialog-trigger"
+            data-open-dialog="navbar-dialog"
+          >
+            <img src="/images/icons/menu.svg" alt="Menu" />
+          </button>
+
+          <div slot="dialog-content">
+            <ul class="space-y-6 px-4">
+              {
+                small.map((link) => (
+                  <li class="group link-container group-even:after:right-[calc(100%_+_4px)] group-even:after:left-auto even:text-right">
+                    <a
+                      href={link.href}
+                      data-title="you're here"
+                      class={cn(
+                        "text-primary nav-link group-even:after:right-[calc(100%_+_4px)] group-even:after:left-auto group-even:after:mr-3 group-even:after:ml-0"
+                      )}
+                      aria-label="Close dialog"
+                      data-close-dialog
+                    >
+                      {link.label}
+                      <Image
+                        width={60}
+                        height={36}
+                        src={"/images/icons/active-arrow.svg"}
+                        alt={"Arrow"}
+                        class={
+                          "absolute top-[2%] left-full group-even:top-1/2 group-even:right-full group-even:left-auto group-even:rotate-180"
+                        }
+                      />
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <button
+            class="border-background absolute top-6 right-6 size-12 cursor-pointer rounded-full border p-2"
+            aria-label="Close dialog"
+            data-close-dialog="navbar-dialog"
+            style="opacity: 0; transform: scale(0.8);"
+            slot="dialog-close"
+          >
+            <X />
+          </button>
+        </AnimatedDialog>
       </nav>
     </div>
   </div>

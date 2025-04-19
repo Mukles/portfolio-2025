@@ -1,12 +1,13 @@
 ---
-import HeroBanner from "../components/HeroBanner.astro";
-import IntroductionBanner from "../components/IntroductionBanner.astro";
-import ShowCase from "../components/ShowCase.astro";
-import Layout from "../layouts/Layout.astro";
+import HeroBanner from "@/components/HeroBanner.astro";
+import IntroductionBanner from "@/components/IntroductionBanner.astro";
+import ShowCase from "@/components/ShowCase.astro";
+import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout namespace="home" title="home page">
   <HeroBanner />
   <ShowCase />
   <IntroductionBanner />
+  <!-- <Testimonial /> -->
 </Layout>

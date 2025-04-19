@@ -3,7 +3,9 @@ import socialLinks from "@/config/socail.json";
 import { Image } from "astro:assets";
 ---
 
-<ul class="in-circle relative mt-18 flex size-20 items-center justify-center">
+<ul
+  class="in-circle relative mt-18 grid size-20 grid-cols-2 items-center justify-center gap-20 lg:flex"
+>
   {
     socialLinks.map((link, index) => (
       <li class="absolute">

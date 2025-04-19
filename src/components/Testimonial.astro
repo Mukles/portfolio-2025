@@ -1,0 +1,103 @@
+---
+import AnimatedDialog from "@/components/AnimatedDialog.astro";
+import HeroesSlider from "@/components/HeroesSlider.astro";
+import { Image } from "astro:assets";
+import { X } from "lucide-astro";
+---
+
+<section class="pt-20 pb-40">
+  <div class="container">
+    <div
+      class="relative mx-auto w-[80%] max-w-[800px] before:block before:pt-[100%] before:content-['']"
+    >
+      <div
+        class="bg-light animate-pulse1 absolute top-0 left-0 z-10 h-full w-full origin-center rounded-full"
+      >
+      </div>
+
+      <div
+        class="bg-primary absolute inset-0 z-20 flex flex-col items-center justify-center space-y-10 rounded-full text-center"
+      >
+        <div class="flex items-center gap-2">
+          <div>
+            <div class="bg-light mx-auto h-12 w-12 rounded-full">
+              <img
+                src="/images/chris-do.png"
+                alt="Chris Do"
+                class="h-12 w-12 rounded-full"
+              />
+            </div>
+            <p
+              class="text-light font-satoshi text-h4-sm mt-2.5 text-lg leading-tight font-medium"
+            >
+              Chris Do
+            </p>
+          </div>
+        </div>
+        <div class="max-w-[600px]">
+          <h2
+            class="font-satoshi text-h2-sm text-light leading-[1.125] font-medium tracking-tight"
+          >
+            You don't need a mentor when you can have many heroes.
+          </h2>
+          <button
+            class="text-light hover:text-primary relative mt-10.5 mr-auto cursor-pointer text-left text-base font-medium before:absolute before:bottom-0 before:left-0 before:h-0.5 before:w-full before:bg-[#f5c3b4] before:transition-[height] before:duration-200 before:ease-in-out hover:before:h-full"
+          >
+            <span class="split-lines relative z-50">Credits </span>
+          </button>
+        </div>
+      </div>
+
+      <AnimatedDialog>
+        <button
+          class="bg-pink z-20 flex size-[120px] items-center justify-center rounded-full"
+          slot="dialog-trigger"
+          id="open-dialog-btn">Open dialog</button
+        >
+
+        <button
+          class="border-background absolute top-6 right-6 size-12 cursor-pointer rounded-full border p-2"
+          id="close-dialog-btn"
+          aria-label="Close dialog"
+          style="opacity: 0; transform: scale(0.8);"
+          slot="dialog-close"
+        >
+          <X />
+        </button>
+
+        <!-- Dialog Header -->
+        <div
+          id="modal-header"
+          style="opacity: 0; transform: translateY(20px);"
+          class="pt-14.5 text-center"
+          slot="dialog-header"
+        >
+          <h2 class="text-h3 font-satoshi font-medium tracking-tight">
+            Heroes & gurus
+          </h2>
+          <p class="mt-3.5 text-base">
+            Scroll down
+            <Image
+              class="inline-block"
+              width={24}
+              height={24}
+              src="/images/scroll-down.svg"
+              alt="Scroll down"
+            />
+            or swipe
+            <Image
+              class="inline-block"
+              width={24}
+              height={24}
+              src="/images/swipe.svg"
+              alt="Swipe"
+            />
+          </p>
+        </div>
+        <div slot="dialog-content" class="mt-36 px-4">
+          <HeroesSlider />
+        </div>
+      </AnimatedDialog>
+    </div>
+  </div>
+</section>

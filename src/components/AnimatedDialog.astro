@@ -1,0 +1,36 @@
+---
+import { cn } from "../lib/utils";
+
+interface Props {
+  modalWrapperClassName?: string;
+  side?: SlideDirection;
+}
+const { modalWrapperClassName, side = "Bottom" } = Astro.props;
+---
+
+<!-- Modal trigger -->
+<slot name="dialog-trigger" />
+
+<div
+  class="bg-background/60 fixed inset-0 z-50 h-svh w-full overflow-hidden p-7 backdrop-blur-lg"
+  style="visibility: hidden; opacity: 0;"
+  data-side={side}
+  data-dialog="navbar-dialog"
+>
+  <div
+    data-modal-wrapper
+    class={cn(
+      "fixed inset-5 overflow-auto rounded-3xl bg-[#eceef3]",
+      modalWrapperClassName
+    )}
+    data-side={side}
+    style="transform: translateY(100%); opacity: 0;"
+  >
+    <!-- Modal Header  -->
+    <slot name="dialog-header" />
+    <!-- Modal Content  -->
+    <slot name="dialog-content" />
+    <!-- close button -->
+    <slot name="dialog-close" />
+  </div>
+</div>

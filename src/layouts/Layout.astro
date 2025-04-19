@@ -37,6 +37,13 @@ const { namespace, title } = Astro.props as Props;
 <script>
   import barba from "@barba/core";
   import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import SplitType from "split-type";
+  import Swiper from "swiper";
+  import { FreeMode, Mousewheel } from "swiper/modules";
+
+  // Register GSAP plugins
+  gsap.registerPlugin(ScrollTrigger);
 
   function pageTransitionOut() {
     const pageTransition = document.querySelector(".page-transition");
@@ -92,7 +99,7 @@ const { namespace, title } = Astro.props as Props;
         async leave(data: { current: { container: HTMLElement } }) {
           const animation = pageTransitionOut();
           await animation.then();
-          gsap.to(data.current.container, {
+          gsap.to(".hero-squiggle", {
             opacity: 0,
             duration: 0.6,
             ease: "power3.out",
@@ -102,7 +109,7 @@ const { namespace, title } = Astro.props as Props;
         async enter(data: { next: { container: HTMLElement } }) {
           const animation = pageTransitionIn();
           await animation.then();
-          gsap.from(data.next.container, {
+          gsap.from(".hero-squiggle", {
             opacity: 0,
             duration: 0.6,
             y: 100,
@@ -133,13 +140,577 @@ const { namespace, title } = Astro.props as Props;
     });
   }
 
-  barba.hooks.beforeLeave(() => {
+  function initializeSplitLines() {
+    document.querySelectorAll(".split-lines").forEach((el) => {
+      // Clean up any existing split
+      try {
+        // @ts-ignore
+        if (el._splitType) {
+          // @ts-ignore
+          el._splitType.revert();
+        }
+      } catch (e) {
+        console.warn("Error reverting split text:", e);
+      }
+
+      const split = new SplitType(el as HTMLElement, {
+        types: "lines",
+        lineClass: "line",
+        tagName: "span",
+      });
+
+      // @ts-ignore
+      el._splitType = split;
+
+      split.lines?.forEach((line) => {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("line-wrap");
+        line.parentNode?.insertBefore(wrapper, line);
+        wrapper.appendChild(line);
+      });
+
+      // Set initial state
+      gsap.set(split.lines, { y: "100%" });
+
+      const animation = gsap.to(split.lines, {
+        y: "0%",
+        duration: 0.8,
+        stagger: 0.05,
+        ease: "power2.out",
+        paused: true,
+      });
+
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 90%",
+        onEnter: () => animation.play(),
+        onEnterBack: () => animation.play(),
+        onLeave: () => animation.pause(0),
+        onLeaveBack: () => animation.pause(0),
+      });
+    });
+  }
+
+  // Stagger reveal animations
+  function initializeStaggerReveal() {
+    const staggerRevealContainers =
+      document.querySelectorAll(".stagger-reveal");
+
+    staggerRevealContainers.forEach((container) => {
+      const children = Array.from(container.children);
+
+      // Set initial state
+      gsap.set(children, { y: "100%", opacity: 0 });
+
+      const animation = gsap.to(children, {
+        y: "0%",
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power2.out",
+        paused: true,
+      });
+
+      ScrollTrigger.create({
+        trigger: container,
+        start: "top 80%",
+        onEnter: () => animation.play(),
+        onEnterBack: () => animation.play(),
+        onLeave: () => animation.pause(0),
+        onLeaveBack: () => animation.pause(0),
+      });
+    });
+  }
+
+  // Element reveal animations
+  function initializeElementReveal() {
+    const revealElements = document.querySelectorAll(".element-reveal");
+    revealElements.forEach((element) => {
+      // Set initial state
+      gsap.set(element, { y: 40, opacity: 0 });
+
+      const animation = gsap.to(element, {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        ease: "power3.inOut",
+        paused: true,
+      });
+
+      ScrollTrigger.create({
+        trigger: element,
+        start: "top 80%",
+        onEnter: () => animation.play(),
+        onEnterBack: () => animation.play(),
+        onLeave: () => animation.pause(0),
+        onLeaveBack: () => animation.pause(0),
+      });
+    });
+  }
+
+  // Ball reveal animations
+  function initializeBallReveal() {
+    const balls = document.querySelectorAll(".ball-reveal");
+    balls.forEach((ball) => {
+      // Set initial state
+      gsap.set(ball, { scale: 0.5, rotate: 30, opacity: 0 });
+
+      const animation = gsap.to(ball, {
+        scale: 1,
+        rotate: 0,
+        opacity: 1,
+        duration: 0.7,
+        ease: "power2.inOut",
+        paused: true,
+      });
+
+      ScrollTrigger.create({
+        trigger: ball,
+        start: "top 80%",
+        onEnter: () => animation.play(),
+        onEnterBack: () => animation.play(),
+        onLeave: () => animation.pause(0),
+        onLeaveBack: () => animation.pause(0),
+      });
+    });
+  }
+
+  // Scroll container animation
+  function initializeScrollContainer() {
+    const scrollContainer = document.querySelector(".scroll-container");
+
+    if (scrollContainer) {
+      // Clear any existing ScrollTrigger instances on this element
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.vars.trigger === scrollContainer) {
+          st.kill();
+        }
+      });
+
+      ScrollTrigger.create({
+        trigger: scrollContainer,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        markers: false,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.to(scrollContainer, {
+            y: window.innerHeight * 0.5 * progress,
+            ease: "power1.inOut",
+            duration: 0.1,
+          });
+        },
+      });
+    }
+  }
+
+  // Parallax image animations
+  function initializeParallaxImages() {
+    document.querySelectorAll(".item-img").forEach((img) => {
+      // Clear any existing ScrollTrigger instances on this element
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.vars.trigger === img) {
+          st.kill();
+        }
+      });
+
+      // Set initial state
+      gsap.set(img, { yPercent: 0 });
+
+      ScrollTrigger.create({
+        trigger: img,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        onUpdate: (self) => {
+          // Calculate parallax effect
+          const progress = self.progress;
+          gsap.to(img, {
+            yPercent: -18 * progress,
+            ease: "none",
+            duration: 0.1, // Short duration for smoother scrubbing
+          });
+        },
+      });
+    });
+  }
+
+  // Social links animation
+  function initializeSocialLinks() {
+    const screenWidth = window.innerWidth;
+    console.log({ screenWidth });
+    const socialIcons = document.querySelectorAll(".in-circle li");
+    let positions = [
+      { left: "-450%", top: "-50%" },
+      { left: "-150%", top: "0%" },
+      { left: "150%", top: "0%" },
+      { left: "450%", top: "-50%" },
+    ];
+
+    if (screenWidth < 768) {
+      positions = [
+        { left: "-100%%", top: "0%" },
+        { left: "100%", top: "0%" },
+        { left: "-100%", top: "200%" },
+        { left: "100%", top: "200%" },
+      ];
+    }
+
+    gsap.fromTo(
+      socialIcons,
+      {
+        left: "50%",
+        top: "50%",
+        opacity: 0,
+      },
+      {
+        left: (i) => positions[i].left,
+        top: (i) => positions[i].top,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power1.inOut",
+      }
+    );
+  }
+
+  // Slider animation
+  function initializeSlider() {
+    const wrapper = document.querySelector(".marquee-wrapper");
+    const marquee = document.querySelector(".marquee");
+
+    if (!wrapper || !marquee) return;
+
+    // Clear existing animations and setup
+    gsap.killTweensOf(".marquee");
+    gsap.set(".marquee", { clearProps: "all" });
+
+    // Remove any existing clones
+    const existingClones = document.querySelectorAll(
+      ".marquee:not(:first-child)"
+    );
+    existingClones.forEach((clone) => clone.remove());
+
+    // Calculate and create clones
+    const itemWidth = (marquee as HTMLElement).offsetWidth;
+    const screenWidth = window.innerWidth;
+    const numClones = Math.ceil((screenWidth * 4) / itemWidth);
+
+    for (let i = 0; i < numClones; i++) {
+      const clone = marquee.cloneNode(true);
+      wrapper.appendChild(clone);
+    }
+
+    // Create animation timeline
+    const timeline = gsap.timeline({
+      repeat: -1,
+      defaults: { ease: "none" },
+      paused: true,
+    });
+
+    const elements = gsap.utils.toArray<HTMLElement>(".marquee");
+    timeline.to(elements, {
+      xPercent: -100,
+      duration: 20,
+      stagger: {
+        each: 0,
+        repeat: -1,
+      },
+    });
+
+    // Start the animation after a short delay
+    gsap.delayedCall(0.1, () => timeline.play());
+
+    // Scroll control for speed adjustment
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: "top bottom",
+      end: "bottom top",
+      onUpdate: (self) => {
+        const velocity = self.getVelocity() / 2000;
+        const baseSpeed = 1;
+
+        // Determine direction and speed
+        let targetSpeed = baseSpeed;
+        if (Math.abs(velocity) > 0.1) {
+          targetSpeed = baseSpeed + Math.min(Math.abs(velocity), 0.5);
+          targetSpeed *= velocity < 0 ? 1 : -1;
+        }
+
+        // Smooth speed transition
+        gsap.to(timeline, {
+          timeScale: targetSpeed,
+          duration: 0.3,
+          ease: "power2.out",
+          overwrite: true,
+        });
+      },
+      onEnter: () => timeline.play(),
+      onLeave: () => timeline.play(),
+      markers: false,
+    });
+
+    return timeline;
+  }
+
+  // Marquee animation management
+  let marqueeAnimation: gsap.core.Timeline | undefined;
+
+  function initMarquee() {
+    if (marqueeAnimation) {
+      marqueeAnimation.kill();
+    }
+    marqueeAnimation = initializeSlider();
+  }
+
+  function initHeroSlider() {
+    const heroSlider = document.querySelector(".hero-slider");
+
+    if (heroSlider) {
+      new Swiper(".hero-slider", {
+        modules: [Mousewheel, FreeMode],
+        loop: true,
+        slidesPerView: "auto",
+        spaceBetween: 30,
+        mousewheel: {
+          eventsTarget: ".hero-slider",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        freeMode: {
+          enabled: false, // Disabled free mode for more controlled scrolling
+        },
+      });
+    }
+  }
+
+  // Initialize dialog functionality
+  function initializeDialog() {
+    // Get all dialogs and their related elements
+    const dialogs = document.querySelectorAll("[data-dialog]");
+
+    dialogs.forEach((dialog) => {
+      const dialogId = dialog.getAttribute("data-dialog");
+      const modalWrapper = dialog.querySelector("[data-modal-wrapper]");
+      const modalHeader = dialog.querySelector("[data-modal-header]");
+      const slideDirection =
+        (dialog.getAttribute("data-side") as SlideDirection) || "Bottom";
+
+      const openBtn = document.querySelector(
+        `[data-open-dialog="${dialogId}"]`
+      ) as HTMLButtonElement;
+      // Update close button selector to include all elements that can close the dialog
+      const closeButtons = dialog.querySelectorAll("[data-close-dialog]");
+      const closeBtn = dialog.querySelector(
+        `[data-close-dialog="${dialogId}"]`
+      ) as HTMLButtonElement;
+
+      console.log({ closeBtn });
+
+      // Function to close dialog
+      const closeDialog = () => {
+        const tl = gsap.timeline();
+        const exitPos = getExitPosition();
+
+        gsap.to(modalWrapper, {
+          y: exitPos.y,
+          x: exitPos.x,
+          opacity: 0,
+          duration: 1.5,
+          ease: "expo.out",
+        });
+
+        gsap.to(dialog, {
+          visibility: "hidden",
+          opacity: 0,
+          duration: 0.1,
+          ease: "power3.inOut",
+          delay: 0.5,
+          onComplete: showBodyScroll,
+        });
+
+        tl.to(closeBtn, {
+          opacity: 0,
+          y: 20,
+        });
+      };
+
+      // Add click event listeners to all close buttons
+      closeButtons.forEach((closeBtn) => {
+        closeBtn.addEventListener("click", (e) => {
+          e.preventDefault(); // Prevent default link behavior
+          closeDialog();
+        });
+      });
+
+      // Function to hide body scrollbar without layout shift (Windows fix)
+      const hideBodyScroll = () => {
+        const scrollbarWidth =
+          window.innerWidth - document.documentElement.clientWidth;
+        if (scrollbarWidth > 0) {
+          document.body.style.paddingRight = `${scrollbarWidth}px`;
+        }
+        document.body.style.overflow = "hidden";
+      };
+
+      // Function to restore body scrollbar
+      const showBodyScroll = () => {
+        document.body.style.paddingRight = "";
+        document.body.style.overflow = "";
+      };
+
+      // Get initial position based on slide direction
+      const getInitialPosition = () => {
+        switch (slideDirection) {
+          case "Top":
+            return { y: "-100%", x: 0 };
+          case "Bottom":
+            return { y: "100%", x: 0 };
+          case "Left":
+            return { y: 0, x: "-100%" };
+          case "Right":
+            return { y: 0, x: "100%" };
+          default:
+            return { y: "100%", x: 0 };
+        }
+      };
+
+      // Get exit position based on slide direction
+      const getExitPosition = () => {
+        switch (slideDirection) {
+          case "Top":
+            return { y: "-100%", x: 0 };
+          case "Bottom":
+            return { y: "100%", x: 0 };
+          case "Left":
+            return { y: 0, x: "-100%" };
+          case "Right":
+            return { y: 0, x: "100%" };
+          default:
+            return { y: "100%", x: 0 };
+        }
+      };
+
+      // Set initial position for each modal
+      if (modalWrapper) {
+        const initialPos = getInitialPosition();
+        gsap.set(modalWrapper, {
+          y: initialPos.y,
+          x: initialPos.x,
+          opacity: 0,
+        });
+      }
+
+      // Open dialog animation
+      openBtn?.addEventListener("click", () => {
+        hideBodyScroll();
+
+        const tl = gsap.timeline();
+        tl.to(dialog, {
+          visibility: "visible",
+          opacity: 1,
+          duration: 0.3,
+          ease: "power3.inOut",
+        });
+
+        tl.to(modalWrapper, {
+          y: 0,
+          x: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: "power1.in",
+        })
+          .fromTo(
+            closeBtn,
+            {
+              opacity: 0,
+              y: 20,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.3,
+              ease: "back.in",
+            }
+          )
+          .fromTo(
+            modalHeader,
+            {
+              opacity: 0,
+              y: 20,
+            },
+            {
+              opacity: 1,
+              y: 0,
+            }
+          );
+      });
+
+      // Close dialog animation
+      closeBtn?.addEventListener("click", () => {
+        const tl = gsap.timeline();
+        const exitPos = getExitPosition();
+
+        gsap.to(modalWrapper, {
+          y: exitPos.y,
+          x: exitPos.x,
+          opacity: 0,
+          duration: 1.5,
+          ease: "expo.out",
+        });
+
+        gsap.to(dialog, {
+          visibility: "hidden",
+          opacity: 0,
+          duration: 0.1,
+          ease: "power3.inOut",
+          delay: 0.5,
+          onComplete: showBodyScroll,
+        });
+
+        tl.to(closeBtn, {
+          opacity: 0,
+          y: 20,
+        });
+      });
+    });
+  }
+
+  function initializeAllAnimations() {
     initializeNavLink();
+    initializeSplitLines();
+    initializeStaggerReveal();
+    initializeElementReveal();
+    initializeBallReveal();
+    initializeScrollContainer();
+    initializeParallaxImages();
+    initializeSocialLinks();
+    initMarquee();
+    initializeDialog();
+    initHeroSlider();
+    // Refresh ScrollTrigger after animations are initialized
     ScrollTrigger.refresh();
+  }
+
+  // Initialize animations before leaving the page
+  barba.hooks.beforeLeave(() => {
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    initializeNavLink();
   });
 
-  barba.hooks.after(() => {
-    initializeNavLink();
-    ScrollTrigger.refresh();
+  // Use for initial page load
+  document.addEventListener("DOMContentLoaded", initializeAllAnimations);
+  document.addEventListener("resize", initializeSocialLinks);
+
+  // Use for Barba page transitions
+  barba.hooks.afterEnter(() => {
+    initializeAllAnimations();
+    // Add a small delay before refreshing ScrollTrigger
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
   });
 </script>

@@ -1,10 +1,31 @@
-[
 {
-  "label": "About me",
-    "href": "/about"
-  },
-  {
-    "label": "Contact me",
-    "href": "/contact"
-  }
-]
+  "large": [
+    {
+      "label": "About me",
+      "href": "/about"
+    },
+    {
+      "label": "Contact me",
+      "href": "/contact"
+    }
+  ],
+  "small": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About me",
+      "href": "/about"
+    },
+    {
+      "label": "Contact me",
+      "href": "/contact"
+    },
+
+    {
+      "label": "Theme",
+      "href": ""
+    }
+  ]
+}

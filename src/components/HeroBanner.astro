@@ -3,11 +3,11 @@ import { Icons } from "./Icons";
 import SocialLinks from "./ui/SocialLinks.astro";
 ---
 
-<section class="section relative">
+<section class="section relative pt-10">
   <div class="container">
-    <div class="flex flex-col items-center text-center">
+    <div class="hero-squiggle mx-4 flex flex-col items-center text-center">
       <h1
-        class="font-satoshi text-center leading-[1.05] font-medium tracking-tight"
+        class="font-satoshi text-h3-sm lg:text-h1 text-center leading-[1.05] font-medium tracking-tight min-[480px]:text-[3.5rem] min-[600px]:text-[4.25rem] min-[800px]:text-[5.25rem]"
       >
         <div>UX/UI designer,</div>
         <div>
@@ -25,10 +25,12 @@ import SocialLinks from "./ui/SocialLinks.astro";
           developer
         </div>
       </h1>
-      <p class="text-primary my-3 text-center text-lg font-normal">
+      <p class="text-primary/70 my-3 text-center text-lg font-normal">
         Specialised in
       </p>
-      <h2 class="relative inline-block text-center text-4xl font-medium">
+      <h2
+        class="relative inline-block text-center text-2xl font-medium lg:text-4xl"
+      >
         Websites & Webapps
         <Icons.Line
           className="absolute top-full left-1/2 w-full -translate-x-1/2 -translate-y-1/2"

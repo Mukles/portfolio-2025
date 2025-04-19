@@ -47,3 +47,5 @@ declare module "about-types" {
     tools: Tool[];
   }
 }
+
+type SlideDirection = "Top" | "Bottom" | "Left" | "Right";
