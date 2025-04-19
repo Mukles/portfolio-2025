@@ -21,6 +21,13 @@
 
   --radius-5xl: 2.8rem;
 
+  /* breakpoints */
+  --breakpoint-xs: 0px;
+  --breakpoint-sm: 481px;
+  --breakpoint-md: 601px;
+  --breakpoint-lg: 801px;
+  --breakpoint-xl: 1081px;
+
   /* Fonts */
   --font-sans: "Neue Montreal", sans-serif;
   --font-satoshi: "Satoshi", sans-serif;

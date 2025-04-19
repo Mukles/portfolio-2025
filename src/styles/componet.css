@@ -14,6 +14,10 @@
   @apply py-24 lg:py-16;
 }
 
+.text-heading {
+  @apply font-satoshi text-h3-sm lg:text-h1 text-center leading-[1.05] font-medium tracking-tight min-[480px]:text-[3.5rem] min-[600px]:text-[4.25rem] min-[800px]:text-[5.25rem];
+}
+
 /* Nav Link Animation */
 .link-container {
   @apply overflow-hidden;
