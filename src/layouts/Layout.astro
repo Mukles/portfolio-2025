@@ -37,39 +37,80 @@ const { namespace, title } = Astro.props as Props;
 <script>
   import barba from "@barba/core";
   import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import SplitType from "split-type";
 
-  // Register GSAP plugins
-  gsap.registerPlugin(ScrollTrigger);
+  function pageTransitionOut() {
+    const pageTransition = document.querySelector(".page-transition");
+    const circles = document.querySelectorAll(".circle");
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.out", duration: 0.6 },
+    });
 
-  // Initialize on document load
-  document.addEventListener("DOMContentLoaded", () => {
-    initializePageTransition();
-    initializeAllAnimations();
-
-    barba.init({
-      timeout: 7000,
-      debug: true,
-      transitions: [
+    return tl
+      .fromTo(
+        pageTransition,
+        { visibility: "hidden", opacity: 0 },
+        { visibility: "visible", opacity: 1 }
+      )
+      .fromTo(
+        circles,
         {
-          async leave(data) {
-            return gsap.to(data.current.container, {
-              opacity: 0,
-            });
-          },
-          async enter(data) {
-            return gsap.from(data.next.container, {
-              opacity: 0,
-            });
-          },
+          opacity: 0,
+          scale: 0.5,
         },
-      ],
+        {
+          opacity: 1,
+          scale: 1,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power3.out",
+        }
+      );
+  }
+
+  function pageTransitionIn() {
+    const pageTransition = document.querySelector(".page-transition");
+    const circles = document.querySelectorAll(".circle");
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.out", duration: 0.6 },
     });
 
-    barba.hooks?.before(() => {
-      initializeNavLink();
-    });
+    return tl
+      .to(pageTransition, { visibility: "visible", opacity: 1 })
+      .fromTo(circles, { opacity: 1, scale: 1 }, { opacity: 0, scale: 0.5 })
+      .to(pageTransition, {
+        opacity: 0,
+        duration: 0.2,
+        visibility: "hidden",
+      });
+  }
+
+  barba.init({
+    debug: true,
+    timeout: 10000,
+    transitions: [
+      {
+        async leave(data: { current: { container: HTMLElement } }) {
+          const animation = pageTransitionOut();
+          await animation.then();
+          gsap.to(data.current.container, {
+            opacity: 0,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+        },
+
+        async enter(data: { next: { container: HTMLElement } }) {
+          const animation = pageTransitionIn();
+          await animation.then();
+          gsap.from(data.next.container, {
+            opacity: 0,
+            duration: 0.6,
+            y: 100,
+            ease: "power3.out",
+          });
+        },
+      },
+    ],
   });
 
   // nav link animation
@@ -79,428 +120,26 @@ const { namespace, title } = Astro.props as Props;
 
     // First remove active class from all nav links to avoid multiple active links
     navLinks.forEach((link) => {
-      link.classList.remove("active");
-    });
-
-    // Then set active class based on URL path
-    navLinks.forEach((link) => {
       const href = link.getAttribute("href");
-      // Check if this link matches the current path
+      if (link.classList.contains("active")) {
+        link.classList.remove("active");
+      }
       if (
         href &&
         (href === currentPath || (href !== "/" && currentPath.startsWith(href)))
       ) {
         link.classList.add("active");
       }
-
-      // Remove existing event listeners to prevent duplicates
-      const newLink = link.cloneNode(true) as HTMLElement;
-      if (link.parentNode) {
-        link.parentNode.replaceChild(newLink, link);
-      }
     });
   }
 
-  // Slider animation
-  function initializeSlider() {
-    const wrapper = document.querySelector(".marquee-wrapper");
-    const marquee = document.querySelector(".marquee");
-
-    if (!wrapper || !marquee) return;
-
-    // Clear existing animations and setup
-    gsap.killTweensOf(".marquee");
-    gsap.set(".marquee", { clearProps: "all" });
-
-    // Remove any existing clones
-    const existingClones = document.querySelectorAll(
-      ".marquee:not(:first-child)"
-    );
-    existingClones.forEach((clone) => clone.remove());
-
-    // Calculate and create clones
-    const itemWidth = (marquee as HTMLElement).offsetWidth;
-    const screenWidth = window.innerWidth;
-    const numClones = Math.ceil((screenWidth * 4) / itemWidth);
-
-    for (let i = 0; i < numClones; i++) {
-      const clone = marquee.cloneNode(true);
-      wrapper.appendChild(clone);
-    }
-
-    // Create animation timeline
-    const timeline = gsap.timeline({
-      repeat: -1,
-      defaults: { ease: "none" },
-      paused: true,
-    });
-
-    const elements = gsap.utils.toArray<HTMLElement>(".marquee");
-    timeline.to(elements, {
-      xPercent: -100,
-      duration: 20,
-      stagger: {
-        each: 0,
-        repeat: -1,
-      },
-    });
-
-    // Start the animation after a short delay
-    gsap.delayedCall(0.1, () => timeline.play());
-
-    // Scroll control for speed adjustment
-    ScrollTrigger.create({
-      trigger: wrapper,
-      start: "top bottom",
-      end: "bottom top",
-      onUpdate: (self) => {
-        const velocity = self.getVelocity() / 2000;
-        const baseSpeed = 1;
-
-        // Determine direction and speed
-        let targetSpeed = baseSpeed;
-        if (Math.abs(velocity) > 0.1) {
-          targetSpeed = baseSpeed + Math.min(Math.abs(velocity), 0.5);
-          targetSpeed *= velocity < 0 ? 1 : -1;
-        }
-
-        // Smooth speed transition
-        gsap.to(timeline, {
-          timeScale: targetSpeed,
-          duration: 0.3,
-          ease: "power2.out",
-          overwrite: true,
-        });
-      },
-      onEnter: () => timeline.play(),
-      onLeave: () => timeline.play(),
-      markers: false,
-    });
-
-    return timeline;
-  }
-
-  // Marquee animation management
-  let marqueeAnimation: gsap.core.Timeline | undefined;
-
-  function initMarquee() {
-    if (marqueeAnimation) {
-      marqueeAnimation.kill();
-    }
-    marqueeAnimation = initializeSlider();
-  }
-
-  // Initialize marquee animations
-  document.addEventListener("DOMContentLoaded", initMarquee);
-
-  // Handle window resize
-  let resizeTimer: number;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(initMarquee, 250);
+  barba.hooks.beforeLeave(() => {
+    initializeNavLink();
+    ScrollTrigger.refresh();
   });
 
-  // Function to initialize all animations
-  function initializeAllAnimations() {
-    initializeSplitLines();
-    initializeStaggerReveal();
-    initializeElementReveal();
-    initializeBallReveal();
-    initializeScrollContainer();
-    initializeParallaxImages();
-    initializeSocialLinks();
-    initializeSlider();
+  barba.hooks.after(() => {
     initializeNavLink();
-  }
-
-  // Page transition animations
-  function initializePageTransition() {
-    const pageTransition = document.querySelector(".page-transition");
-    const circles = document.querySelectorAll(".circle");
-
-    gsap.set(pageTransition, {
-      opacity: 0,
-      visibility: "hidden",
-    });
-
-    gsap.set(circles, {
-      opacity: 0,
-      scale: 0.5,
-    });
-  }
-
-  function afterPageLoad() {
-    const pageTransition = document.querySelector(".page-transition");
-    const circles = document.querySelectorAll(".circle");
-
-    return new Promise((resolve) => {
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.inOut", duration: 0.6 },
-        onComplete: resolve,
-      });
-
-      tl.to(circles, {
-        scale: 0.3,
-        opacity: 0,
-        stagger: {
-          each: 0.1,
-          from: "end",
-        },
-      }).to(
-        pageTransition,
-        {
-          opacity: 0,
-          visibility: "hidden",
-        },
-        "-=0.3"
-      );
-    });
-  }
-
-  function onRouteChange() {
-    const pageTransition = document.querySelector(".page-transition");
-    const circles = document.querySelectorAll(".circle");
-
-    // Pre-update nav links for faster visual feedback is handled by click event now
-
-    return new Promise((resolve) => {
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out", duration: 0.6 },
-        onComplete: resolve,
-      });
-
-      tl.set(pageTransition, { visibility: "visible" })
-        .to(pageTransition, { opacity: 1, duration: 0.2 })
-        .to(circles, {
-          opacity: 1,
-          scale: 1,
-          stagger: 0.1,
-        });
-    });
-  }
-
-  // Split text animations
-  function initializeSplitLines() {
-    document.querySelectorAll(".split-lines").forEach((el) => {
-      // Clean up any existing split
-      try {
-        // @ts-ignore
-        if (el._splitType) {
-          // @ts-ignore
-          el._splitType.revert();
-        }
-      } catch (e) {
-        console.warn("Error reverting split text:", e);
-      }
-
-      const split = new SplitType(el as HTMLElement, {
-        types: "lines",
-        lineClass: "line",
-        tagName: "span",
-      });
-
-      // @ts-ignore
-      el._splitType = split;
-
-      split.lines?.forEach((line) => {
-        const wrapper = document.createElement("div");
-        wrapper.classList.add("line-wrap");
-        line.parentNode?.insertBefore(wrapper, line);
-        wrapper.appendChild(line);
-      });
-
-      // Set initial state
-      gsap.set(split.lines, { y: "100%" });
-
-      const animation = gsap.to(split.lines, {
-        y: "0%",
-        duration: 0.8,
-        stagger: 0.05,
-        ease: "power2.out",
-        paused: true,
-      });
-
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 90%",
-        onEnter: () => animation.play(),
-        onEnterBack: () => animation.play(),
-        onLeave: () => animation.pause(0),
-        onLeaveBack: () => animation.pause(0),
-      });
-    });
-  }
-
-  // Stagger reveal animations
-  function initializeStaggerReveal() {
-    const staggerRevealContainers =
-      document.querySelectorAll(".stagger-reveal");
-
-    staggerRevealContainers.forEach((container) => {
-      const children = Array.from(container.children);
-
-      // Set initial state
-      gsap.set(children, { y: "100%", opacity: 0 });
-
-      const animation = gsap.to(children, {
-        y: "0%",
-        opacity: 1,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power2.out",
-        paused: true,
-      });
-
-      ScrollTrigger.create({
-        trigger: container,
-        start: "top 80%",
-        onEnter: () => animation.play(),
-        onEnterBack: () => animation.play(),
-        onLeave: () => animation.pause(0),
-        onLeaveBack: () => animation.pause(0),
-      });
-    });
-  }
-
-  // Element reveal animations
-  function initializeElementReveal() {
-    const revealElements = document.querySelectorAll(".element-reveal");
-    revealElements.forEach((element) => {
-      // Set initial state
-      gsap.set(element, { y: 40, opacity: 0 });
-
-      const animation = gsap.to(element, {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        ease: "power3.inOut",
-        paused: true,
-      });
-
-      ScrollTrigger.create({
-        trigger: element,
-        start: "top 80%",
-        onEnter: () => animation.play(),
-        onEnterBack: () => animation.play(),
-        onLeave: () => animation.pause(0),
-        onLeaveBack: () => animation.pause(0),
-      });
-    });
-  }
-
-  // Ball reveal animations
-  function initializeBallReveal() {
-    const balls = document.querySelectorAll(".ball-reveal");
-    balls.forEach((ball) => {
-      // Set initial state
-      gsap.set(ball, { scale: 0.5, rotate: 30, opacity: 0 });
-
-      const animation = gsap.to(ball, {
-        scale: 1,
-        rotate: 0,
-        opacity: 1,
-        duration: 0.7,
-        ease: "power2.inOut",
-        paused: true,
-      });
-
-      ScrollTrigger.create({
-        trigger: ball,
-        start: "top 80%",
-        onEnter: () => animation.play(),
-        onEnterBack: () => animation.play(),
-        onLeave: () => animation.pause(0),
-        onLeaveBack: () => animation.pause(0),
-      });
-    });
-  }
-
-  // Scroll container animation
-  function initializeScrollContainer() {
-    const scrollContainer = document.querySelector(".scroll-container");
-
-    if (scrollContainer) {
-      // Clear any existing ScrollTrigger instances on this element
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.vars.trigger === scrollContainer) {
-          st.kill();
-        }
-      });
-
-      ScrollTrigger.create({
-        trigger: scrollContainer,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        markers: false,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          gsap.to(scrollContainer, {
-            y: window.innerHeight * 0.5 * progress,
-            ease: "power1.inOut",
-            duration: 0.1,
-          });
-        },
-      });
-    }
-  }
-
-  // Parallax image animations
-  function initializeParallaxImages() {
-    document.querySelectorAll(".item-img").forEach((img) => {
-      // Clear any existing ScrollTrigger instances on this element
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.vars.trigger === img) {
-          st.kill();
-        }
-      });
-
-      // Set initial state
-      gsap.set(img, { yPercent: 0 });
-
-      ScrollTrigger.create({
-        trigger: img,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-        onUpdate: (self) => {
-          // Calculate parallax effect
-          const progress = self.progress;
-          gsap.to(img, {
-            yPercent: -18 * progress,
-            ease: "none",
-            duration: 0.1, // Short duration for smoother scrubbing
-          });
-        },
-      });
-    });
-  }
-
-  // Social links animation
-  function initializeSocialLinks() {
-    const socialIcons = document.querySelectorAll(".in-circle li");
-    const positions = [
-      { left: "-450%", top: "-50%" },
-      { left: "-150%", top: "0%" },
-      { left: "150%", top: "0%" },
-      { left: "450%", top: "-50%" },
-    ];
-
-    gsap.fromTo(
-      socialIcons,
-      {
-        left: "50%",
-        top: "50%",
-        opacity: 0,
-      },
-      {
-        left: (i) => positions[i].left,
-        top: (i) => positions[i].top,
-        opacity: 1,
-        duration: 0.5,
-        ease: "power1.inOut",
-      }
-    );
-  }
+    ScrollTrigger.refresh();
+  });
 </script>

@@ -42,10 +42,15 @@ declare module "@barba/core" {
 
   const barba: {
     init(config: BarbaInit): void;
+
     go(href: string, trigger?: string): void;
     hooks: {
-      before: (data: any) => void;
       after: (data: any) => void;
+      beforeEnter: (data: any) => void;
+      afterEnter: (data: any) => void;
+      beforeLeave: (data: any) => void;
+      afterLeave: (data: any) => void;
+      beforeOnce: (data: any) => void;
     };
     destroy(): void;
     use(plugin: any): void;
