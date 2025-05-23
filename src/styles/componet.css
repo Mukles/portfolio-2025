@@ -1,9 +1,9 @@
 .container-fluid {
-  @apply mx-auto w-full px-4;
+  @apply mx-auto w-full px-2 lg:px-4;
 }
 
 .container {
-  @apply mx-auto w-full !max-w-[1213px] px-4 lg:px-0;
+  @apply mx-auto w-full !max-w-[1213px] px-4 xl:px-0;
 }
 
 .section {
@@ -15,17 +15,33 @@
 }
 
 .text-heading {
-  @apply font-satoshi text-h3-sm lg:text-h1 text-center leading-[1.05] font-medium tracking-tight min-[480px]:text-[3.5rem] min-[600px]:text-[4.25rem] min-[800px]:text-[5.25rem];
+  @apply font-satoshi text-h3-sm xl:text-h1 text-center leading-[1.05] font-medium tracking-tight sm:text-[3.5rem] md:text-[4.25rem] lg:text-[5.25rem];
 }
 
 /* Nav Link Animation */
 .link-container {
   @apply overflow-hidden;
 }
+
 .nav-link {
   @apply max-lg:font-satoshi max-lg:bg-background relative inline-block max-lg:rounded-2xl max-lg:px-6 max-lg:py-5.5 max-lg:text-[48px] max-lg:font-medium;
   &::after {
-    @apply max-lg:text-primary/80 max-lg:absolute max-lg:top-[30%] max-lg:left-[calc(100%_+_4px)] max-lg:ml-3 max-lg:text-sm max-lg:font-normal max-lg:whitespace-nowrap max-lg:capitalize max-lg:content-[attr(data-title)] max-lg:after:font-sans;
+    @apply max-lg:text-primary/80 invisible opacity-0 max-lg:absolute max-lg:top-[30%] max-lg:left-[calc(100%_+_4px)] max-lg:ml-3 max-lg:font-sans max-lg:text-sm max-lg:font-normal max-lg:whitespace-nowrap max-lg:capitalize max-lg:content-[attr(data-title)];
+  }
+
+  img {
+    @apply invisible opacity-0;
+  }
+}
+.nav-link.active {
+  @apply max-xl:bg-pink;
+
+  &::after {
+    @apply visible opacity-100;
+  }
+
+  img {
+    @apply visible opacity-100;
   }
 }
 

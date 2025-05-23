@@ -4,8 +4,9 @@ import { cn } from "../lib/utils";
 interface Props {
   modalWrapperClassName?: string;
   side?: SlideDirection;
+  dialog: string;
 }
-const { modalWrapperClassName, side = "Bottom" } = Astro.props;
+const { modalWrapperClassName, side = "Bottom", dialog } = Astro.props;
 ---
 
 <!-- Modal trigger -->
@@ -15,7 +16,7 @@ const { modalWrapperClassName, side = "Bottom" } = Astro.props;
   class="bg-background/60 fixed inset-0 z-50 h-svh w-full overflow-hidden p-7 backdrop-blur-lg"
   style="visibility: hidden; opacity: 0;"
   data-side={side}
-  data-dialog="navbar-dialog"
+  data-dialog={dialog}
 >
   <div
     data-modal-wrapper

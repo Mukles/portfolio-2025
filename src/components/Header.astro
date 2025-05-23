@@ -11,7 +11,7 @@ import { Icons } from "./Icons";
 <header class="top-0 left-0 z-50 py-2.5">
   <div class="container-fluid">
     <div
-      class="bg-light/75 flex items-center justify-between rounded-full px-5 py-3 lg:px-7"
+      class="bg-light/75 flex items-center justify-between rounded-full py-1.5 pr-2 pl-3.5 md:px-5 md:py-3 lg:px-7"
     >
       <a
         href="/"
@@ -47,15 +47,23 @@ import { Icons } from "./Icons";
       </nav>
 
       <nav class="block lg:hidden">
-        <AnimatedDialog side="Top" modalWrapperClassName="py-5">
+        <AnimatedDialog
+          dialog="navbar-dialog"
+          side="Top"
+          modalWrapperClassName="py-5"
+        >
           <button
             type="button"
-            class="text-primary border-light bg-background ml-auto flex size-10 cursor-pointer items-center justify-center rounded-full border lg:hidden"
+            class="text-primary border-dark/20 bg-background ml-auto flex size-10 cursor-pointer items-center justify-center rounded-full border lg:hidden"
             aria-label="Open dialog"
             slot="dialog-trigger"
             data-open-dialog="navbar-dialog"
           >
-            <img src="/images/icons/menu.svg" alt="Menu" />
+            <img
+              class="max-lg:size-5"
+              src="/images/icons/menu.svg"
+              alt="Menu"
+            />
           </button>
 
           <div slot="dialog-content">
@@ -70,6 +78,7 @@ import { Icons } from "./Icons";
                         "text-primary nav-link group-even:after:right-[calc(100%_+_4px)] group-even:after:left-auto group-even:after:mr-3 group-even:after:ml-0"
                       )}
                       aria-label="Close dialog"
+                      style="transform: translateY(-100%);"
                       data-close-dialog
                     >
                       {link.label}
@@ -90,10 +99,9 @@ import { Icons } from "./Icons";
           </div>
 
           <button
-            class="border-background absolute top-6 right-6 size-12 cursor-pointer rounded-full border p-2"
+            class="border-background absolute top-6 right-6 flex size-12 cursor-pointer items-center justify-center rounded-full border p-2"
             aria-label="Close dialog"
             data-close-dialog="navbar-dialog"
-            style="opacity: 0; transform: scale(0.8);"
             slot="dialog-close"
           >
             <X />

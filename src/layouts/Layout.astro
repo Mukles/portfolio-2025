@@ -496,6 +496,8 @@ const { namespace, title } = Astro.props as Props;
       const dialogId = dialog.getAttribute("data-dialog");
       const modalWrapper = dialog.querySelector("[data-modal-wrapper]");
       const modalHeader = dialog.querySelector("[data-modal-header]");
+      const navItems = dialog.querySelectorAll(".link-container > a");
+
       const slideDirection =
         (dialog.getAttribute("data-side") as SlideDirection) || "Bottom";
 
@@ -508,13 +510,10 @@ const { namespace, title } = Astro.props as Props;
         `[data-close-dialog="${dialogId}"]`
       ) as HTMLButtonElement;
 
-      console.log({ closeBtn });
-
-      // Function to close dialog
-      const closeDialog = () => {
+      const closeDialog = async () => {
         const tl = gsap.timeline();
         const exitPos = getExitPosition();
-
+        // Continue with modal wrapper animation
         gsap.to(modalWrapper, {
           y: exitPos.y,
           x: exitPos.x,
@@ -523,6 +522,7 @@ const { namespace, title } = Astro.props as Props;
           ease: "expo.out",
         });
 
+        // Hide dialog
         gsap.to(dialog, {
           visibility: "hidden",
           opacity: 0,
@@ -532,6 +532,7 @@ const { namespace, title } = Astro.props as Props;
           onComplete: showBodyScroll,
         });
 
+        // Animate close button
         tl.to(closeBtn, {
           opacity: 0,
           y: 20,
@@ -542,7 +543,7 @@ const { namespace, title } = Astro.props as Props;
       closeButtons.forEach((closeBtn) => {
         closeBtn.addEventListener("click", (e) => {
           e.preventDefault(); // Prevent default link behavior
-          closeDialog();
+          // closeDialog();
         });
       });
 
@@ -607,52 +608,52 @@ const { namespace, title } = Astro.props as Props;
       // Open dialog animation
       openBtn?.addEventListener("click", () => {
         hideBodyScroll();
-
+        gsap.to(navItems, {
+          delay: 1.2,
+          y: "0%",
+          stagger: 0.05,
+          duration: 0.8,
+          ease: "power2.out",
+        });
         const tl = gsap.timeline();
         tl.to(dialog, {
           visibility: "visible",
           opacity: 1,
           duration: 0.3,
-          ease: "power3.inOut",
+          ease: "power3.in",
         });
 
         tl.to(modalWrapper, {
           y: 0,
           x: 0,
           opacity: 1,
-          duration: 0.7,
-          ease: "power1.in",
-        })
-          .fromTo(
-            closeBtn,
-            {
-              opacity: 0,
-              y: 20,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.3,
-              ease: "back.in",
-            }
-          )
-          .fromTo(
-            modalHeader,
-            {
-              opacity: 0,
-              y: 20,
-            },
-            {
-              opacity: 1,
-              y: 0,
-            }
-          );
+          duration: 1,
+          ease: "power4.in",
+        });
       });
 
       // Close dialog animation
-      closeBtn?.addEventListener("click", () => {
+      closeBtn?.addEventListener("click", async () => {
         const tl = gsap.timeline();
         const exitPos = getExitPosition();
+
+        // Create a timeline for nav items animation
+        const navTimeline = gsap.timeline();
+
+        // Animate nav items with staggered delay
+        navTimeline.to(navItems, {
+          y: "-100%",
+          duration: 0.3,
+          ease: "power1",
+          stagger: {
+            each: 0.1,
+            from: "start",
+          },
+        });
+
+        await new Promise((resolve) => {
+          setTimeout(resolve, 500);
+        });
 
         gsap.to(modalWrapper, {
           y: exitPos.y,

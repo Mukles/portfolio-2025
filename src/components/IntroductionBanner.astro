@@ -18,38 +18,41 @@ const { title, description, button, services } = Object.values(
 
 <section class="section">
   <div class="container">
-    <Badge variant="accent">
-      <p>What I offer</p>
-    </Badge>
-    <div class="mt-12 flex justify-between">
-      <div class="basis-[calc(50%_-_6rem)]">
-        <h2
-          class="font-satoshi split-lines text-6xl leading-[66px] font-medium tracking-tighter"
-        >
-          {title}
-        </h2>
-        <p class="split-lines mt-9 text-xl">
-          {description}
-        </p>
+    <div class="lg:px-10">
+      <Badge variant="accent">
+        <p>What I offer</p>
+      </Badge>
+      <div class="mt-12 justify-between space-y-27 xl:flex">
+        <div class="lg:basis-[calc(50%_-_6rem)]">
+          <h2
+            class="font-satoshi split-lines text-[32px] leading-[38px] font-medium tracking-tighter lg:text-6xl lg:leading-[66px]"
+            px-10
+          >
+            {title}
+          </h2>
+          <p class="split-lines mt-3 text-xl lg:mt-9">
+            {description}
+          </p>
 
-        {
-          button.enable && (
-            <Button
-              variant="warning"
-              class="group element-reveal font-satoshi mt-11 items-center justify-center space-x-0 px-6 pr-2.5 text-lg normal-case transition-all duration-300"
-              href={button.label}
-            >
-              <span>{button.label}</span>
-              <span class="text-primary group-hover:border-background flex size-10 items-center justify-center rounded-full border border-transparent transition-all duration-200 ease-in-out group-hover:ml-2">
-                <ArrowRight class="size-5 flex-shrink-0" />
-              </span>
-            </Button>
-          )
-        }
-      </div>
-      <!-- Service Accordion -->
-      <div class="basis-[calc(50%_-_6rem)]">
-        <ServiceAccordion client:load serviceItems={services} />
+          {
+            button.enable && (
+              <Button
+                variant="warning"
+                class="group element-reveal font-satoshi mt-11 items-center justify-center space-x-0 px-6 pr-2.5 text-lg normal-case transition-all duration-300"
+                href={button.label}
+              >
+                <span>{button.label}</span>
+                <span class="text-primary group-hover:border-background flex size-10 items-center justify-center rounded-full border border-transparent transition-all duration-200 ease-in-out group-hover:ml-2">
+                  <ArrowRight class="size-5 flex-shrink-0" />
+                </span>
+              </Button>
+            )
+          }
+        </div>
+        <!-- Service Accordion -->
+        <div class="basis-[calc(50%_-_6rem)]">
+          <ServiceAccordion client:load serviceItems={services} />
+        </div>
       </div>
     </div>
   </div>

@@ -4,9 +4,9 @@ import ProjectCard from "./ui/ProjectCard.astro";
 const projects = await getCollection("projects");
 ---
 
-<section class="section">
+<section class="section mt-36 md:mt-0">
   <div class="container-fluid">
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 gap-4 gap-y-20 lg:grid-cols-2">
       {
         projects.map((project) => {
           return (
