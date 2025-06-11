@@ -55,7 +55,7 @@ function inCircle(selector: string, options: IncircleOptions): void {
     var childElements = Array.from(element.children).filter(
       function (_, index) {
         return settings.type === 1 || index > 0;
-      },
+      }
     ) as HTMLElement[];
 
     var numberOfElements =
@@ -104,7 +104,7 @@ export function inCircleInit() {
     },
     {
       threshold: 0.6,
-    },
+    }
   );
 
   observer.observe(elements);

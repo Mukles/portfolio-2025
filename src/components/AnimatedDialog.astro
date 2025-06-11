@@ -7,16 +7,18 @@ interface Props {
   dialog: string;
 }
 const { modalWrapperClassName, side = "Bottom", dialog } = Astro.props;
+const dialogId = crypto.randomUUID();
 ---
 
 <!-- Modal trigger -->
-<slot name="dialog-trigger" />
+<slot name="dialog-trigger" id={`modal-${dialogId}`} />
 
 <div
   class="bg-background/60 fixed inset-0 z-50 h-svh w-full overflow-hidden p-7 backdrop-blur-lg"
   style="visibility: hidden; opacity: 0;"
   data-side={side}
   data-dialog={dialog}
+  id={`modal-bg-${dialogId}`}
 >
   <div
     data-modal-wrapper
@@ -26,12 +28,13 @@ const { modalWrapperClassName, side = "Bottom", dialog } = Astro.props;
     )}
     data-side={side}
     style="transform: translateY(100%); opacity: 0;"
+    id={`modal-wrapper-${dialogId}`}
   >
     <!-- Modal Header  -->
-    <slot name="dialog-header" />
+    <slot name="dialog-header" id={`modal-header-${dialogId}`} />
     <!-- Modal Content  -->
-    <slot name="dialog-content" />
+    <slot name="dialog-content" id={`modal-content-${dialogId}`} />
     <!-- close button -->
-    <slot name="dialog-close" />
+    <slot name="dialog-close" id={`modal-close-${dialogId}`} />
   </div>
 </div>

@@ -2,7 +2,9 @@
 import { Image } from "astro:assets";
 ---
 
-<button class="rounded-full bg-background size-10 flex items-center justify-center border border-[#11296933] text-sm font-bold">
+<button
+  class="bg-background flex size-10 items-center justify-center rounded-full border border-[#11296933] text-sm font-bold"
+>
   <Image src="/images/theme.svg" alt="theme switcher" width={24} height={24} />
   <span class="sr-only">theme switcher</span>
 </button>

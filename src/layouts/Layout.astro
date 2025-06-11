@@ -495,7 +495,6 @@ const { namespace, title } = Astro.props as Props;
     dialogs.forEach((dialog) => {
       const dialogId = dialog.getAttribute("data-dialog");
       const modalWrapper = dialog.querySelector("[data-modal-wrapper]");
-      const modalHeader = dialog.querySelector("[data-modal-header]");
       const navItems = dialog.querySelectorAll(".link-container > a");
 
       const slideDirection =
@@ -505,47 +504,9 @@ const { namespace, title } = Astro.props as Props;
         `[data-open-dialog="${dialogId}"]`
       ) as HTMLButtonElement;
       // Update close button selector to include all elements that can close the dialog
-      const closeButtons = dialog.querySelectorAll("[data-close-dialog]");
       const closeBtn = dialog.querySelector(
         `[data-close-dialog="${dialogId}"]`
       ) as HTMLButtonElement;
-
-      const closeDialog = async () => {
-        const tl = gsap.timeline();
-        const exitPos = getExitPosition();
-        // Continue with modal wrapper animation
-        gsap.to(modalWrapper, {
-          y: exitPos.y,
-          x: exitPos.x,
-          opacity: 0,
-          duration: 1.5,
-          ease: "expo.out",
-        });
-
-        // Hide dialog
-        gsap.to(dialog, {
-          visibility: "hidden",
-          opacity: 0,
-          duration: 0.1,
-          ease: "power3.inOut",
-          delay: 0.5,
-          onComplete: showBodyScroll,
-        });
-
-        // Animate close button
-        tl.to(closeBtn, {
-          opacity: 0,
-          y: 20,
-        });
-      };
-
-      // Add click event listeners to all close buttons
-      closeButtons.forEach((closeBtn) => {
-        closeBtn.addEventListener("click", (e) => {
-          e.preventDefault(); // Prevent default link behavior
-          // closeDialog();
-        });
-      });
 
       // Function to hide body scrollbar without layout shift (Windows fix)
       const hideBodyScroll = () => {
@@ -608,6 +569,10 @@ const { namespace, title } = Astro.props as Props;
       // Open dialog animation
       openBtn?.addEventListener("click", () => {
         hideBodyScroll();
+        const navbarDialogCloseBtn = document.querySelector(
+          "#navbar-dialog-close"
+        );
+
         gsap.to(navItems, {
           delay: 1.2,
           y: "0%",
@@ -622,6 +587,23 @@ const { namespace, title } = Astro.props as Props;
           duration: 0.3,
           ease: "power3.in",
         });
+
+        if (modalWrapper?.contains(navbarDialogCloseBtn)) {
+          console.log({ navbarDialogCloseBtn });
+          gsap.fromTo(
+            navbarDialogCloseBtn,
+            {
+              opacity: 0,
+              y: -100,
+            },
+            {
+              delay: 1,
+              duration: 0.5,
+              opacity: 1,
+              y: 0,
+            }
+          );
+        }
 
         tl.to(modalWrapper, {
           y: 0,

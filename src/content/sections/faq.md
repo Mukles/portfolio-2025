@@ -29,6 +29,3 @@
         <p>A clear brief and your trust :)</p>
 
 ---
-
-
-
